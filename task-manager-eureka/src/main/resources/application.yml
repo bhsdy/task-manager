@@ -1,0 +1,15 @@
+server:
+  port: 8090
+eureka:
+  instance:
+    hostname: localhost
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 15
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka/
+spring:
+  application:
+    name: task-manager-eureka

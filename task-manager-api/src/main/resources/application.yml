@@ -1,0 +1,126 @@
+server:
+  port: 8081
+
+#MYSQL
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/task-manager?autoReconnect=true&characterEncoding=utf8&useSSL=false
+#    password: ${spring.datasource.password}
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 初始化大小，最小，最大
+      initial-size: 1
+      min-idle: 1
+      max-active: 100
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,log4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+       # 合并多个DruidDataSource的监控数据
+        #spring.datasource.useGlobalDataSourceStat=true
+
+
+#spring.jpa.show-sql=true
+#  jpa:
+#    show-sql: false
+#    hibernate:
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      ddl-auto: update
+
+  application:
+    name: task-manager-api
+
+#默认支持文件上传.
+  http:
+    multipart:
+      enabled: true
+#支持文件写入磁盘.
+      file-size-threshold: 0
+# 上传文件的临时目录
+      location: D:/test
+# 最大支持文件大小
+      max-file-size: 5Mb
+# 最大支持请求大小
+      max-request-size: 10Mb
+#mybatis&&通用Mapper
+mybatis:
+  type-aliases-package: com.cn.taskManager.domain.mapper
+  mapper-locations: classpath:mappers/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+mapper:
+  mappers: com.cn.taskManager.common.utils.MyMapper
+  identity: MYSQL
+
+#分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+#注册中心地址
+eureka:
+  client:
+    serviceUrl:
+#      defaultZone: ${eureka.client.serviceUrl.defaultZone}
+      defaultZone: http://localhost:8090/eureka/
+  healthcheck:
+    enabled: true
+  instance:
+    lease-expiration-duration-in-seconds: 30
+    lease-renewal-interval-in-seconds: 10
+
+swagger2:
+  enable: true
+
+#---
+#spring:
+#  profiles: uat
+#  datasource:
+#      url: jdbc:mysql://localhost:3306/task-manager?autoReconnect=true&characterEncoding=utf8&useSSL=false
+#      username: root
+#      password: root
+#  redis:
+#    database: 0
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    pool.max-idle: 8
+#    pool.min-idle: 0
+#    pool.max-active: 8
+#    pool.max-wait: -1
+#    timeout: 5000
+#swagger2:
+#  enable: true
+
+#---
+#spring:
+#  profiles: prd
+#  datasource:
+#       url: jdbc:mysql://118.24.26.137:3306/task-manager?autoReconnect=true&characterEncoding=utf8&useSSL=false
+#       username: root
+#       password: feng123456
+#swagger2:
+#  enable: false
+
+
+
+

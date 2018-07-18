@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.taskManager.domain.mapper.SysRuleMapper" >
+    <resultMap id="BaseResultMap" type="com.cn.taskManager.domain.entity.SysRule" >
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
+        <result column="level" jdbcType="TINYINT" property="level" />
+        <result column="pid" jdbcType="VARCHAR" property="pid" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+    </resultMap>
+    <select id="selectByStatus" resultMap="BaseResultMap">
+  	SELECT * FROM sys_admin_rule t1 WHERE t1.status = ${status}
+  </select>
+
+    <select id="selectInIds" resultMap="BaseResultMap">
+  	SELECT * FROM sys_admin_rule t1 WHERE t1.id in(#{ruleIds}) AND t1.status=#{status}
+  </select>
+</mapper>

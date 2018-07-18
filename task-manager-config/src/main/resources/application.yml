@@ -1,0 +1,20 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: task-manager-config
+  cloud:
+    config:
+#      discovery:
+#        enabled: true
+#        serviceId: task-manager-config
+      server:
+        git:
+          uri: https://github.com/bhsdy/config/
+#          search-paths: config-repo
+          username:
+          password:
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8090/eureka/
