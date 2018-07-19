@@ -3,6 +3,8 @@ package com.cn.taskManager.controller.backend;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysUser;
+import com.cn.taskManager.domain.entity.SysUserDetail;
+import com.cn.taskManager.domain.service.SysUserDetailService;
 import com.cn.taskManager.domain.service.SysUserService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -20,11 +22,13 @@ import java.util.Map;
  * @author leo.aqing
  */
 @RestController
-@RequestMapping("/admin/users")
-@Api(value = "SysUsersController", description = "系统用户接口")
-public class SysUsersController extends CommonController {
+@RequestMapping("/admin/user")
+@Api(value = "SysUserController", description = "系统用户接口")
+public class SysUserController extends CommonController {
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private SysUserDetailService sysUserDetailService;
 
 	/**
 	 * 列表
@@ -137,5 +141,20 @@ public class SysUsersController extends CommonController {
 			return FastJsonUtils.resultError(-200, "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess(200, "成功", null);
+	}
+
+	/**
+	 * 更新
+	 */
+	@ApiOperation(value = "更新用户明细")
+	@PostMapping(value = "updateUserDetail", produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String updateUserDetail(@RequestBody(required=false) SysUserDetail record, HttpServletRequest request) {
+//		int row = sysUserDetailService.save(record);
+		int row = sysUserDetailService.updateByPrimaryKey(record);
+		if(row == 0) {
+			return FastJsonUtils.resultError(-200, "更新失败", null);
+		}
+		return FastJsonUtils.resultSuccess(200, "更新成功", null);
 	}
 }

@@ -3,7 +3,10 @@ package com.cn.taskManager.domain.entity;
 import com.cn.taskManager.common.BaseEntity;
 import lombok.Data;
 
+import javax.persistence.Transient;
 import java.util.Date;
+import java.util.List;
+
 @Data
 public class SysUser extends BaseEntity {
     private String id;
@@ -23,5 +26,11 @@ public class SysUser extends BaseEntity {
     private String postId;
 
     private Byte status;
+    @Transient
+    private SysUserDetail sysUserDetail;
+    @Transient
+    private SysPost sysPost;
+    @Transient
+    private SysStructure sysStructure;
 
 }

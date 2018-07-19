@@ -67,7 +67,8 @@
         </javaClientGenerator>
 
 
-        <table schema="" tableName="sys_structure"></table>
+        <table schema="" tableName="sys_user_detail"></table>
+        <!--<table schema="" tableName="sys_structure"></table>-->
         <!--<table schema="" tableName="sys_post"></table>-->
         <!--<table schema="" tableName="sys_config"></table>-->
         <!--<table schema="" tableName="sys_user"></table>-->

@@ -16,4 +16,5 @@ public class SysPost extends BaseEntity {
 
     private Byte status;
 
+    private String structureId;
 }

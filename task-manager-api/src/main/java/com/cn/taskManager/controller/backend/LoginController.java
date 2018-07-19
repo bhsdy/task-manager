@@ -4,11 +4,8 @@ import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.constants.Constant;
 import com.cn.taskManager.common.utils.EncryptUtil;
 import com.cn.taskManager.common.utils.FastJsonUtils;
-import com.cn.taskManager.domain.entity.SysRule;
-import com.cn.taskManager.domain.entity.SysUser;
-import com.cn.taskManager.domain.service.SysMenuService;
-import com.cn.taskManager.domain.service.SysRuleService;
-import com.cn.taskManager.domain.service.SysUserService;
+import com.cn.taskManager.domain.entity.*;
+import com.cn.taskManager.domain.service.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,11 +40,17 @@ public class LoginController extends CommonController {
 	@Autowired
 	private SysUserService sysUserService;
 	@Autowired
+	private SysUserDetailService sysUserDetailService;
+	@Autowired
 	private SysRuleService sysRuleService;
 	@Autowired
 	private SysMenuService sysMenuService;
 	@Autowired
 	private DefaultKaptcha captchaProducer;
+	@Autowired
+	private SysPostService sysPostService;
+	@Autowired
+	private SysStructureService sysStructureService;
 
 	/**
 	 * 登录
@@ -70,6 +73,23 @@ public class LoginController extends CommonController {
 		}
 		if(!adminUser.getStatus().equals(Byte.valueOf("1"))) {
 			return FastJsonUtils.resultError(-100, "帐号已被禁用", null);
+		}
+		//查找用户详情
+		SysUserDetail sysUserDetail = new SysUserDetail();
+		sysUserDetail.setUserId(adminUser.getId());
+		SysUserDetail sysUserDetailQuery = sysUserDetailService.selectOne(sysUserDetail);
+		adminUser.setSysUserDetail(sysUserDetailQuery);
+		//查找用户岗位
+		SysPost sysPost = new SysPost();
+		sysPost.setId(adminUser.getPostId());
+		SysPost sysPostQuery = sysPostService.selectOne(sysPost);
+		adminUser.setSysPost(sysPostQuery);
+		//查找用户部门
+		if(sysPostQuery != null){
+			SysStructure sysStructure = new SysStructure();
+			sysStructure.setId(sysPostQuery.getStructureId());
+			SysStructure sysStructureQuery = sysStructureService.selectOne(sysStructure);
+			adminUser.setSysStructure(sysStructureQuery);
 		}
 		String authKey = EncryptUtil.encryptBase64(adminUser.getUserName()+"|"+adminUser.getPassword(), Constant.SECRET_KEY);
 		// 返回信息

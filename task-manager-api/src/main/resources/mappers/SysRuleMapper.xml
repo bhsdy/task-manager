@@ -10,10 +10,10 @@
         <result column="status" jdbcType="TINYINT" property="status" />
     </resultMap>
     <select id="selectByStatus" resultMap="BaseResultMap">
-  	SELECT * FROM sys_admin_rule t1 WHERE t1.status = ${status}
+  	SELECT * FROM sys_rule t1 WHERE t1.status = ${status}
   </select>
 
     <select id="selectInIds" resultMap="BaseResultMap">
-  	SELECT * FROM sys_admin_rule t1 WHERE t1.id in(#{ruleIds}) AND t1.status=#{status}
+  	SELECT * FROM sys_rule t1 WHERE t1.id in(#{ruleIds}) AND t1.status=#{status}
   </select>
 </mapper>

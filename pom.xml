@@ -42,7 +42,7 @@
         <repository>
             <id>aliyun-maven</id>
             <name>aliyun maven</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <url>http://maven.alsys_admin_ruleiyun.com/nexus/content/groups/public/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>

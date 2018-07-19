@@ -11,9 +11,9 @@
     </resultMap>
     <!-- 根据用户id查询分组信息 -->
     <select id="selectByUserId"  resultMap="BaseResultMap">
-        SELECT * FROM sys_admin_group t1 WHERE t1.status=#{status}
+        SELECT * FROM sys_group t1 WHERE t1.status=#{status}
         <if test="userId != null and userId !='1'">
-            t1.id in (select t2.group_id from sys_admin_access t2 WHERE t2.user_id=#{userId})
+            t1.id in (select t2.group_id from sys_access t2 WHERE t2.user_id=#{userId})
         </if>
     </select>
 </mapper>

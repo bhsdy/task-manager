@@ -17,6 +17,6 @@
     </resultMap>
     <!-- 根据权限ids查询菜单信息 -->
     <select id="selectInRuleIds" resultMap="BaseResultMap">
-  	SELECT * FROM sys_admin_menu t1 where t1.status = #{status} AND t1.rule_id in (#{ruleIds}) order by sort asc
+  	SELECT * FROM sys_menu t1 where t1.status = #{status} AND t1.rule_id in (#{ruleIds}) order by sort asc
   </select>
 </mapper>

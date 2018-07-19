@@ -10,10 +10,24 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2018-07-18 15:52:16
+Date: 2018-07-18 16:48:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for sys_access
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_access`;
+CREATE TABLE `sys_access` (
+  `user_id` varchar(36) DEFAULT NULL COMMENT '用户ID',
+  `group_id` varchar(36) DEFAULT NULL COMMENT '分钟ID'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sys_access
+-- ----------------------------
+INSERT INTO `sys_access` VALUES ('2', '15');
 
 -- ----------------------------
 -- Table structure for sys_config
