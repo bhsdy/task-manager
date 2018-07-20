@@ -1,4 +1,4 @@
-package com.cn.taskManager.domain.service;
+package com.cn.taskManager.domain.service.backend;
 
 import com.cn.taskManager.common.utils.ByteObjectUtils;
 import com.cn.taskManager.common.utils.EscapeUtils;
@@ -26,7 +26,7 @@ public class CacheService {
     private StringRedisTemplate stringRedisTemplate;
     @Value("${spring.redis.expire-time:1800}")
     private Long expireTime = 1800L;
-    
+
     /**
      * 读取缓存
      *
@@ -39,7 +39,7 @@ public class CacheService {
         }
         return this.redisTemplate.opsForValue().get(key);
     }
-    
+
     /**
      * 判断缓存中是否有对应的key
      *
@@ -49,7 +49,7 @@ public class CacheService {
     public boolean containsKey(Object key) {
         return this.redisTemplate.hasKey(key);
     }
-    
+
     /**
      * 删除对应的key
      *
@@ -60,7 +60,7 @@ public class CacheService {
             this.redisTemplate.delete(key);
         }
     }
-    
+
     /**
      * 写入缓存
      *
@@ -71,7 +71,7 @@ public class CacheService {
     public boolean put(Object key, Object value) {
         return this.put(key, value, this.expireTime);
     }
-    
+
     /**
      * 写入缓存并设置有效时间
      *
@@ -90,7 +90,7 @@ public class CacheService {
         }
         return result;
     }
-    
+
     /**
      * 清空所有的键
      */
@@ -100,7 +100,7 @@ public class CacheService {
             this.stringRedisTemplate.delete(key);
         }
     }
-    
+
     /**
      * 获取所有的key
      *

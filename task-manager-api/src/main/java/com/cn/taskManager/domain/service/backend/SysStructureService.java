@@ -1,10 +1,10 @@
-package com.cn.taskManager.domain.service;
+package com.cn.taskManager.domain.service.backend;
 
 import com.cn.taskManager.common.BaseServiceImpl;
 import com.cn.taskManager.common.utils.BeanToMapUtil;
 import com.cn.taskManager.common.utils.Category;
-import com.cn.taskManager.domain.entity.SysGroup;
-import com.cn.taskManager.domain.mapper.SysGroupMapper;
+import com.cn.taskManager.domain.entity.SysStructure;
+import com.cn.taskManager.domain.mapper.backend.SysStructureMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +16,30 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class SysGroupService extends BaseServiceImpl<SysGroup> {
+public class SysStructureService extends BaseServiceImpl<SysStructure> {
+
 	@Autowired
-	private SysGroupMapper sysGroupMapper;
+	private SysStructureMapper sysStructureMapper;
 
 	@Override
-	public Mapper<SysGroup> getMapper() {
-		return sysGroupMapper;
+	public Mapper<SysStructure> getMapper() {
+		return sysStructureMapper;
 	}
-	/**
-	 * 列表
-	 * @return
-	 */
+
 	public List<Map<String, Object>> getDataList() {
-		Example example = new Example(SysGroup.class);
-		List<SysGroup> rootSysGroups = sysGroupMapper.selectByExample(example);
+		Example example = new Example(SysStructure.class);
+		example.setOrderByClause(" id asc");
+		List<SysStructure> rootSysStructure = sysStructureMapper.selectByExample(example);
 		Map<String, String> fields = Maps.newHashMap();
 		fields.put("cid", "id");
 		fields.put("fid", "pid");
-		fields.put("name", "title");
+		fields.put("name", "name");
 		fields.put("fullname", "title");
 		List<Map<String, Object>> rawList = Lists.newArrayList();
-		rootSysGroups.forEach((m)->{
+		rootSysStructure.forEach((m)->{
 			rawList.add(BeanToMapUtil.convertBean(m));
 		});
 		Category cate = new Category(fields, rawList);
-//		return cate.getList(Integer.valueOf("0"));
 		return cate.getRawList();
 	}
 

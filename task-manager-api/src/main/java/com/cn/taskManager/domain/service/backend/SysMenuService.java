@@ -1,13 +1,12 @@
-package com.cn.taskManager.domain.service;
+package com.cn.taskManager.domain.service.backend;
 
 import com.cn.taskManager.common.BaseServiceImpl;
 import com.cn.taskManager.common.utils.BeanToMapUtil;
 import com.cn.taskManager.common.utils.Category;
 import com.cn.taskManager.domain.entity.SysGroup;
 import com.cn.taskManager.domain.entity.SysMenu;
-import com.cn.taskManager.domain.entity.SysMenu;
-import com.cn.taskManager.domain.mapper.SysGroupMapper;
-import com.cn.taskManager.domain.mapper.SysMenuMapper;
+import com.cn.taskManager.domain.mapper.backend.SysGroupMapper;
+import com.cn.taskManager.domain.mapper.backend.SysMenuMapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;

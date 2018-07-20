@@ -3,7 +3,7 @@ package com.cn.taskManager.common;
 import com.cn.taskManager.common.constants.Constant;
 import com.cn.taskManager.common.utils.EncryptUtil;
 import com.cn.taskManager.domain.entity.SysUser;
-import com.cn.taskManager.domain.service.SysUserService;
+import com.cn.taskManager.domain.service.backend.SysUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;

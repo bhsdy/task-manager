@@ -3,7 +3,7 @@ package com.cn.taskManager.controller.backend;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysRule;
-import com.cn.taskManager.domain.service.SysRuleService;
+import com.cn.taskManager.domain.service.backend.SysRuleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.CollectionUtils;

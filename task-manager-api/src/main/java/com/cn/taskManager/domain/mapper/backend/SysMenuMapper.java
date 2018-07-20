@@ -1,4 +1,4 @@
-package com.cn.taskManager.domain.mapper;
+package com.cn.taskManager.domain.mapper.backend;
 
 import com.cn.taskManager.common.utils.MyMapper;
 import com.cn.taskManager.domain.entity.SysMenu;

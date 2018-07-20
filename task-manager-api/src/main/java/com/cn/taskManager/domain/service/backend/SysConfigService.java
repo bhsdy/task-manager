@@ -1,8 +1,8 @@
-package com.cn.taskManager.domain.service;
+package com.cn.taskManager.domain.service.backend;
 
 import com.cn.taskManager.common.BaseServiceImpl;
 import com.cn.taskManager.domain.entity.SysConfig;
-import com.cn.taskManager.domain.mapper.SysConfigMapper;
+import com.cn.taskManager.domain.mapper.backend.SysConfigMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.common.Mapper;

@@ -1,11 +1,11 @@
-package com.cn.taskManager.domain.service;
+package com.cn.taskManager.domain.service.backend;
 
 import com.cn.taskManager.common.BaseServiceImpl;
 import com.cn.taskManager.common.constants.Constant;
 import com.cn.taskManager.common.utils.EncryptUtil;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysUser;
-import com.cn.taskManager.domain.mapper.SysUserMapper;
+import com.cn.taskManager.domain.mapper.backend.SysUserMapper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;

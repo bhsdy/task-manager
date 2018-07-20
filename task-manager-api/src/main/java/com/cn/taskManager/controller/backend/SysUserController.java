@@ -4,8 +4,8 @@ import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysUser;
 import com.cn.taskManager.domain.entity.SysUserDetail;
-import com.cn.taskManager.domain.service.SysUserDetailService;
-import com.cn.taskManager.domain.service.SysUserService;
+import com.cn.taskManager.domain.service.backend.SysUserDetailService;
+import com.cn.taskManager.domain.service.backend.SysUserService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -150,8 +150,7 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "updateUserDetail", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String updateUserDetail(@RequestBody(required=false) SysUserDetail record, HttpServletRequest request) {
-//		int row = sysUserDetailService.save(record);
-		int row = sysUserDetailService.updateByPrimaryKey(record);
+		int row = sysUserDetailService.save(record);
 		if(row == 0) {
 			return FastJsonUtils.resultError(-200, "更新失败", null);
 		}

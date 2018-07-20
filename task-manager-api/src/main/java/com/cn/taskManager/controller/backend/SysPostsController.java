@@ -3,7 +3,7 @@ package com.cn.taskManager.controller.backend;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysPost;
-import com.cn.taskManager.domain.service.SysPostService;
+import com.cn.taskManager.domain.service.backend.SysPostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.CollectionUtils;

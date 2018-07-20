@@ -3,7 +3,7 @@ package com.cn.taskManager.controller.backend;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysMenu;
-import com.cn.taskManager.domain.service.SysMenuService;
+import com.cn.taskManager.domain.service.backend.SysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.CollectionUtils;
