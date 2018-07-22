@@ -64,15 +64,15 @@ public class LoginController extends CommonController {
 	public String login(@RequestBody SysUser record, HttpServletRequest request) {
 		Map<String, Object> data = new HashMap<String, Object>();
 		if(StringUtils.isBlank(record.getUserName())) {
-			return FastJsonUtils.resultError(-100, "账号不能为空", null);
+			return FastJsonUtils.resultError("-100", "账号不能为空", null);
 		}
 		record.setPassword(DigestUtils.md5Hex(record.getPassword()));
 		SysUser adminUser = sysUserService.selectOne(record);
 		if(adminUser == null) {
-			return FastJsonUtils.resultError(-100, "帐号与密码错误不正确", null);
+			return FastJsonUtils.resultError("-100", "帐号与密码错误不正确", null);
 		}
 		if(!adminUser.getStatus().equals(Byte.valueOf("1"))) {
-			return FastJsonUtils.resultError(-100, "帐号已被禁用", null);
+			return FastJsonUtils.resultError("-100", "帐号已被禁用", null);
 		}
 		//查找用户详情
 		SysUserDetail sysUserDetail = new SysUserDetail();
@@ -102,7 +102,7 @@ public class LoginController extends CommonController {
 		data.put("rulesList", rulesList);
 		data.put("menusList", sysMenuService.getTreeMenuByUserId(adminUser.getId()));
 
-		return FastJsonUtils.resultSuccess(200, "登录成功", data);
+		return FastJsonUtils.resultSuccess("200", "登录成功", data);
 	}
 
 
@@ -125,9 +125,9 @@ public class LoginController extends CommonController {
 		record.setUserName(splits[1]);
 		SysUser user = sysUserService.selectOne(record);
 		if(user == null) {
-			return FastJsonUtils.resultError(-400, "重新登录失败", null);
+			return FastJsonUtils.resultError("-400", "重新登录失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "重新登录成功", null);
+		return FastJsonUtils.resultSuccess("200", "重新登录成功", null);
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class LoginController extends CommonController {
 	@ResponseBody
 	public String logout(HttpSession session){
 		session.invalidate();
-		return FastJsonUtils.resultSuccess(200, "退出成功", null);
+		return FastJsonUtils.resultSuccess("200", "退出成功", null);
 	}
 
 	/***

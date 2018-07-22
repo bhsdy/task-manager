@@ -37,6 +37,6 @@ public class UploadController extends CommonController {
 		response.setContentType("text/html;charset=utf-8");
 		 //上传文件
         String path = UploadUtils.saveMartipartFile(multipartLocation, request,file,"users","yyyyMM");
-        return FastJsonUtils.resultSuccess(1, "上传成功",path);
+        return FastJsonUtils.resultSuccess("1", "上传成功",path);
 	}
 }

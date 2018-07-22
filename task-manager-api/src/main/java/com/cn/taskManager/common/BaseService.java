@@ -9,7 +9,7 @@ import java.util.List;
  * @author leo.aqing
  */
 public interface BaseService<T extends BaseEntity> {
-	
+
 	/**
 	 * 根据实体类不为null的字段进行查询,条件全部使用=号and条件
 	 * @param record 对象 对象
@@ -53,7 +53,7 @@ public interface BaseService<T extends BaseEntity> {
 
     /**
 	 * 根据实体类不为null的字段进行查询,条件全部使用=号and条件
-	* @param record 对象 
+	* @param record 对象
 	* @return int 受影响的行
 	 */
     int delete(T record);
@@ -82,17 +82,17 @@ public interface BaseService<T extends BaseEntity> {
 	* @return int 受影响的行
 	 */
     int updateByPrimaryKeySelective(T record);
-    
+
 
     /**
      * 保存或者更新，根据传入id主键是不是null来确认
     * @param record 对象
     * @return int 影响行数
      */
-    int save(T record);
-    
+    T save(T record);
+
     /**
-   	 *(单表分页可排序) 
+   	 *(单表分页可排序)
    	 * @param pageNum 当前页
    	 * @param pageSize 页码
    	 * @param record 对象
@@ -110,7 +110,7 @@ public interface BaseService<T extends BaseEntity> {
 	 * @return PageInfo 分页对象
 	 */
 	PageInfo<T> selectPage(int pageNum, int pageSize, T record, String orderSqlStr);
-	
+
 	/**
 	 * 根据实体类不为null的字段进行查询,条件全部使用=号and条件
 	 * @param record

@@ -38,7 +38,7 @@ public class SysUserController extends CommonController {
 	@ResponseBody
 	public String index(SysUser record, HttpServletRequest request) {
 		PageInfo<SysUser> userPage = sysUserService.getDataList(record);
-		return FastJsonUtils.resultSuccess(200, "成功", userPage);
+		return FastJsonUtils.resultSuccess("200", "成功", userPage);
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class SysUserController extends CommonController {
 	@ResponseBody
 	public String read(@PathVariable Integer id, HttpServletRequest request) {
 		SysUser goup = sysUserService.selectByPrimaryKey(id);
-		return FastJsonUtils.resultSuccess(200, "成功", goup);
+		return FastJsonUtils.resultSuccess("200", "成功", goup);
 	}
 
 	/**
@@ -59,11 +59,11 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysUser record,HttpServletRequest request) {
-		int row = sysUserService.save(record);
-		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "保存失败", null);
+		SysUser saveResult = sysUserService.save(record);
+		if(saveResult == null) {
+			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 
 
@@ -74,11 +74,11 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysUser record,HttpServletRequest request) {
-		int row = sysUserService.save(record);
-		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "更新失败", null);
+		SysUser saveResult = sysUserService.save(record);
+		if(saveResult == null) {
+			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "更新成功", null);
+		return FastJsonUtils.resultSuccess("200", "更新成功", null);
 	}
 
 	/**
@@ -90,9 +90,9 @@ public class SysUserController extends CommonController {
 	public String delete(@PathVariable Integer id) {
 		int row = sysUserService.deleteByPrimaryKey(id);
 		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "删除失败", null);
+			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "删除成功", null);
+		return FastJsonUtils.resultSuccess("200", "删除成功", null);
 	}
 
 	/**
@@ -105,16 +105,16 @@ public class SysUserController extends CommonController {
 		@SuppressWarnings("unchecked")
 		List<Integer> ids = (List<Integer>)params.get("ids");
 		if (CollectionUtils.isEmpty(ids)) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
 			for (int i = 0; i < ids.size(); i++) {
 				sysUserService.deleteByPrimaryKey(ids.get(i));
 			}
 		} catch (Exception e) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "操作成功", null);
+		return FastJsonUtils.resultSuccess("200", "操作成功", null);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class SysUserController extends CommonController {
 		List<Integer> ids = (List<Integer>)params.get("ids");
 		byte status = Byte.valueOf(params.get("status").toString());
 		if (CollectionUtils.isEmpty(ids)) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
 			for (int i = 0; i < ids.size(); i++) {
@@ -138,9 +138,9 @@ public class SysUserController extends CommonController {
 				sysUserService.updateByPrimaryKeySelective(record);
 			}
 		} catch (Exception e) {
-			return FastJsonUtils.resultError(-200, "保存失败", null);
+			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 
 	/**
@@ -150,10 +150,10 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "updateUserDetail", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String updateUserDetail(@RequestBody(required=false) SysUserDetail record, HttpServletRequest request) {
-		int row = sysUserDetailService.save(record);
-		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "更新失败", null);
+		SysUserDetail saveResult = sysUserDetailService.save(record);
+		if(saveResult == null) {
+			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "更新成功", null);
+		return FastJsonUtils.resultSuccess("200", "更新成功", null);
 	}
 }

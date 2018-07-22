@@ -33,7 +33,7 @@ public class SysPostsController extends CommonController {
 	@ResponseBody
 	public String index(String name,HttpServletRequest request) {
 		List<SysPost> goups = sysPostService.getDataList(name);
-		return FastJsonUtils.resultSuccess(200, "成功", goups);
+		return FastJsonUtils.resultSuccess("200", "成功", goups);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class SysPostsController extends CommonController {
 	@ResponseBody
 	public String read(@PathVariable Integer id,HttpServletRequest request) {
 		SysPost goup = sysPostService.selectByPrimaryKey(id);
-		return FastJsonUtils.resultSuccess(200, "成功", goup);
+		return FastJsonUtils.resultSuccess("200", "成功", goup);
 	}
 
 	/**
@@ -54,11 +54,11 @@ public class SysPostsController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysPost record,HttpServletRequest request) {
-		int row = sysPostService.save(record);
-		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "保存失败", null);
+		SysPost saveResult = sysPostService.save(record);
+		if(saveResult == null) {
+			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 
 
@@ -69,11 +69,11 @@ public class SysPostsController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysPost record,HttpServletRequest request) {
-		int row = sysPostService.save(record);
-		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "更新失败", null);
+		SysPost saveResult = sysPostService.save(record);
+		if(saveResult == null) {
+			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "更新成功", null);
+		return FastJsonUtils.resultSuccess("200", "更新成功", null);
 	}
 
 	/**
@@ -85,9 +85,9 @@ public class SysPostsController extends CommonController {
 	public String delete(@PathVariable Integer id) {
 		int row = sysPostService.deleteByPrimaryKey(id);
 		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "删除失败", null);
+			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "删除成功", null);
+		return FastJsonUtils.resultSuccess("200", "删除成功", null);
 	}
 
 	/**
@@ -100,16 +100,16 @@ public class SysPostsController extends CommonController {
 		@SuppressWarnings("unchecked")
 		List<Integer> ids = (List<Integer>)params.get("ids");
 		if (CollectionUtils.isEmpty(ids)) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
 			for (int i = 0; i < ids.size(); i++) {
 				//sysPostService.deleteByPrimaryKey(ids.get(i));
 			}
 		} catch (Exception e) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "操作成功", null);
+		return FastJsonUtils.resultSuccess("200", "操作成功", null);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class SysPostsController extends CommonController {
 		List<Integer> ids = (List<Integer>)params.get("ids");
 		byte status = Byte.valueOf(params.get("status").toString());
 		if (CollectionUtils.isEmpty(ids)) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
 			for (int i = 0; i < ids.size(); i++) {
@@ -133,8 +133,8 @@ public class SysPostsController extends CommonController {
 				sysPostService.updateByPrimaryKeySelective(record);
 			}
 		} catch (Exception e) {
-			return FastJsonUtils.resultError(-200, "保存失败", null);
+			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 }
