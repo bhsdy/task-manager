@@ -38,6 +38,6 @@ public class ConfigController extends CommonController {
 				data.put(c.getName(), c.getValue());
 			}
 		}
-		return FastJsonUtils.resultSuccess(200, "查询配置成功", data);
+		return FastJsonUtils.resultSuccess("200", "查询配置成功", data);
 	}
 }

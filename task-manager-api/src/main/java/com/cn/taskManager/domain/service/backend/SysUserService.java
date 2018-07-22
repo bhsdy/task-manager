@@ -32,27 +32,27 @@ public class SysUserService extends BaseServiceImpl<SysUser> {
 	 */
 	public String setInfo(SysUser currentUser, String old_pwd, String new_pwd) {
 		if (currentUser == null){
-			return FastJsonUtils.resultError(-400, "请先登录", null);
+			return FastJsonUtils.resultError("-400", "请先登录", null);
 		}
 
 		if (StringUtils.isNotBlank(old_pwd)) {
-			return FastJsonUtils.resultError(-400, "旧密码必填", null);
+			return FastJsonUtils.resultError("-400", "旧密码必填", null);
 		}
 
 		if(StringUtils.isNotBlank(new_pwd)) {
-			return FastJsonUtils.resultError(-400, "新密码必填", null);
+			return FastJsonUtils.resultError("-400", "新密码必填", null);
 		}
 
 		if (old_pwd.equals(new_pwd)) {
-			return FastJsonUtils.resultError(-400, "新旧密码不能一样", null);
+			return FastJsonUtils.resultError("-400", "新旧密码不能一样", null);
 		}
 
 		if (!currentUser.getPassword().equals(DigestUtils.md5Hex(old_pwd))) {
-			return FastJsonUtils.resultError(-400, "原密码错误", null);
+			return FastJsonUtils.resultError("-400", "原密码错误", null);
 		}
 
 		if (!currentUser.getPassword().equals(DigestUtils.md5Hex(old_pwd))) {
-			return FastJsonUtils.resultError(-400, "原密码错误", null);
+			return FastJsonUtils.resultError("-400", "原密码错误", null);
 		}
 		SysUser record = new SysUser();
 		record.setId(currentUser.getId());
@@ -61,7 +61,7 @@ public class SysUserService extends BaseServiceImpl<SysUser> {
 		sysUserMapper.updateByPrimaryKeySelective(record);
 		String authKey = EncryptUtil.encryptBase64(currentUser.getUserName()+"|"+md5NewPwd, Constant.SECRET_KEY);
 		//@TODO 更新缓存中auth_key
-		return FastJsonUtils.resultError(200, "修改成功", authKey);
+		return FastJsonUtils.resultError("200", "修改成功", authKey);
 	}
 
 	public PageInfo<SysUser> getDataList(SysUser record) {

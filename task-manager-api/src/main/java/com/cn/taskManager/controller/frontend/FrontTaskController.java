@@ -21,17 +21,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 系统配置 控制层
- * @author leo.aqing
+ * 任务接口
+ * @author Johan
  */
 @RestController
 @RequestMapping("/api")
-@Api(value = "FrontTaskController", description = "系统配置接口")
+@Api(value = "FrontTaskController", description = "任务接口")
 public class FrontTaskController extends CommonController {
 	@Autowired
 	private FrontTaskService frontTaskService;
 
-	@ApiOperation(value = "获取配置", httpMethod="POST")
+	@ApiOperation(value = "新增任务", httpMethod="POST")
 	@PostMapping(value = "/save", produces = {"application/json;charset=UTF-8"})
 	public String save(@RequestBody(required=false) FrontTask record, HttpServletRequest request) {
 		int saveResult = frontTaskService.save(record);

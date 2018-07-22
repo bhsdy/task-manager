@@ -10,8 +10,6 @@ import javax.persistence.Table;
 @Data
 @Table(name = "sys_user_detail")
 public class SysUserDetail extends BaseEntity {
-//    @Id
-//    private String id;
     @Column(name = "user_id")
     private String userId;
     @Column(name = "email")

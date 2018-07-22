@@ -33,7 +33,7 @@ public class SysMenusController extends CommonController {
 	@ResponseBody
 	public String index(@RequestBody(required=false) SysMenu record, HttpServletRequest request) {
 		List<Map<String, Object>> menus = sysMenuService.getDataList(this.getCurrentUser().getId(), record == null ? null : record.getStatus());
-		return FastJsonUtils.resultSuccess(200, "成功", menus);
+		return FastJsonUtils.resultSuccess("200", "成功", menus);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class SysMenusController extends CommonController {
 	@ResponseBody
 	public String read(@PathVariable Integer id, HttpServletRequest request) {
 		SysMenu menu = sysMenuService.selectByPrimaryKey(id);
-		return FastJsonUtils.resultSuccess(200, "成功", menu);
+		return FastJsonUtils.resultSuccess("200", "成功", menu);
 	}
 
 	/**
@@ -56,9 +56,9 @@ public class SysMenusController extends CommonController {
 	public String save(@RequestBody(required=false) SysMenu record,HttpServletRequest request) {
 		int row = sysMenuService.save(record);
 		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "保存失败", null);
+			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 
 
@@ -71,9 +71,9 @@ public class SysMenusController extends CommonController {
 	public String update(@RequestBody(required=false) SysMenu record,HttpServletRequest request) {
 		int row = sysMenuService.save(record);
 		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "操作成功", null);
+		return FastJsonUtils.resultSuccess("200", "操作成功", null);
 	}
 
 	/**
@@ -85,9 +85,9 @@ public class SysMenusController extends CommonController {
 	public String delete(@PathVariable Integer id) {
 		int row = sysMenuService.deleteByPrimaryKey(id);
 		if(row == 0) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "操作成功", null);
+		return FastJsonUtils.resultSuccess("200", "操作成功", null);
 	}
 
 	/**
@@ -100,16 +100,16 @@ public class SysMenusController extends CommonController {
 		@SuppressWarnings("unchecked")
 		List<Integer> ids = (List<Integer>)params.get("ids");
 		if (CollectionUtils.isEmpty(ids)) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
 			for (int i = 0; i < ids.size(); i++) {
 				//sysMenuService.deleteByPrimaryKey(ids.get(i));
 			}
 		} catch (Exception e) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "操作成功", null);
+		return FastJsonUtils.resultSuccess("200", "操作成功", null);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class SysMenusController extends CommonController {
 		List<Integer> ids = (List<Integer>)params.get("ids");
 		byte status = Byte.valueOf(params.get("status").toString());
 		if (CollectionUtils.isEmpty(ids)) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
 			for (int i = 0; i < ids.size(); i++) {
@@ -133,8 +133,8 @@ public class SysMenusController extends CommonController {
 				sysMenuService.updateByPrimaryKeySelective(record);
 			}
 		} catch (Exception e) {
-			return FastJsonUtils.resultError(-200, "操作失败", null);
+			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
-		return FastJsonUtils.resultSuccess(200, "成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 }
