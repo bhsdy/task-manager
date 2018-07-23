@@ -17,8 +17,8 @@ public class FrontTask extends BaseEntity {
     private String source;
     @Column(name = "accomplish")
     private String accomplish;
-    @Column(name = "level")
-    private String level;
+    @Column(name = "dict_code")
+    private String dictCode;
     @Column(name = "task_detail")
     private String taskDetail;
     @Column(name = "input")
@@ -31,5 +31,6 @@ public class FrontTask extends BaseEntity {
     private String remark;
     @Transient
     private List<FrontTaskNode> frontTaskNodeList;
-
+    @Transient
+    private SysDict sysDict;
 }

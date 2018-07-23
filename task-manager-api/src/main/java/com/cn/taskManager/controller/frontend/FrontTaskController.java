@@ -44,7 +44,7 @@ public class FrontTaskController extends CommonController {
 	@ApiOperation(value = "获取任务", httpMethod="POST")
 	@PostMapping(value = "/queryTaskList", produces = {"application/json;charset=UTF-8"})
 	public String queryTaskList(@RequestBody(required=false) FrontTask record, HttpServletRequest request) {
-		PageInfo<FrontTask> frontTaskPageInfo = frontTaskService.selectPage(record.getRows(), record.getPage(), record);
+		PageInfo<FrontTask> frontTaskPageInfo = frontTaskService.queryTaskList(record);
 		return FastJsonUtils.toResponse(ResultCode.SUCC, frontTaskPageInfo);
 	}
 }
