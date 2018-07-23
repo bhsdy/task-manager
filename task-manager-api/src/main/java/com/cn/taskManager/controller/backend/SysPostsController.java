@@ -54,8 +54,8 @@ public class SysPostsController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysPost record,HttpServletRequest request) {
-		int row = sysPostService.save(record);
-		if(row == 0) {
+		SysPost saveResult = sysPostService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -69,8 +69,8 @@ public class SysPostsController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysPost record,HttpServletRequest request) {
-		int row = sysPostService.save(record);
-		if(row == 0) {
+		SysPost saveResult = sysPostService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);

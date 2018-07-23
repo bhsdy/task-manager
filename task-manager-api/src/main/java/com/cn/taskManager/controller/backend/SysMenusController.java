@@ -54,8 +54,8 @@ public class SysMenusController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysMenu record,HttpServletRequest request) {
-		int row = sysMenuService.save(record);
-		if(row == 0) {
+		SysMenu saveResult = sysMenuService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -69,8 +69,8 @@ public class SysMenusController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysMenu record,HttpServletRequest request) {
-		int row = sysMenuService.save(record);
-		if(row == 0) {
+		SysMenu saveResult = sysMenuService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "操作成功", null);

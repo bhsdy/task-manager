@@ -59,8 +59,8 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysUser record,HttpServletRequest request) {
-		int row = sysUserService.save(record);
-		if(row == 0) {
+		SysUser saveResult = sysUserService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -74,8 +74,8 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysUser record,HttpServletRequest request) {
-		int row = sysUserService.save(record);
-		if(row == 0) {
+		SysUser saveResult = sysUserService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);
@@ -150,8 +150,8 @@ public class SysUserController extends CommonController {
 	@PostMapping(value = "updateUserDetail", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String updateUserDetail(@RequestBody(required=false) SysUserDetail record, HttpServletRequest request) {
-		int row = sysUserDetailService.save(record);
-		if(row == 0) {
+		SysUserDetail saveResult = sysUserDetailService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);

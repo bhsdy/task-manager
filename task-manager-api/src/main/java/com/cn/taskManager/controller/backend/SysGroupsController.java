@@ -57,8 +57,8 @@ public class SysGroupsController extends CommonController {
 		if(record.getPid() == null) {
 			record.setPid("0");
 		}
-		int row = sysGroupService.save(record);
-		if(row == 0) {
+		SysGroup saveResult = sysGroupService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -72,8 +72,8 @@ public class SysGroupsController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysGroup record,HttpServletRequest request) {
-		int row = sysGroupService.save(record);
-		if(row == 0) {
+		SysGroup saveResult = sysGroupService.save(record);
+		if(saveResult == null) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);

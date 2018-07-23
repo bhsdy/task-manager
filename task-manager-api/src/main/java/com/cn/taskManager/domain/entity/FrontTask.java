@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
 
 @Data
 @Table(name = "front_task")
@@ -27,5 +29,7 @@ public class FrontTask extends BaseEntity {
     private String progress;
     @Column(name = "remark")
     private String remark;
+    @Transient
+    private List<FrontTaskNode> frontTaskNodeList;
 
 }

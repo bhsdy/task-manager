@@ -2,6 +2,7 @@ package com.cn.taskManager.common;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import tk.mybatis.mapper.common.Mapper;
@@ -9,19 +10,21 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.entity.Example.Criteria;
 import org.apache.commons.collections.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseService<T>{
-	
+
 	//protected Mapper<T> mapper;
-	
+
 	public abstract Mapper<T> getMapper();
-	
+
 	@Override
 	public T selectOne(T record) {
-	
+
 		List<T> results = getMapper().select(record);
 		if(CollectionUtils.isNotEmpty(results)){
 			return results.get(0);
@@ -37,10 +40,10 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 	 */
 	@Override
 	public List<T> select(T record) {
-	
+
 		return getMapper().select(record);
 	}
-	
+
 	/**
 	 * 根据实体类不为null的字段进行查询，条件全部使用=号and条件，并指定排序
 	 * @param record 查询条件
@@ -65,7 +68,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 			throw new RuntimeException(e.getMessage(),e);
 		}
 	}
-	
+
 	/**
 	 * 根据实体类不为null的字段查询总数,条件全部使用=号and条件
 	 * @param record 对象
@@ -73,13 +76,13 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 	 */
 	@Override
 	public int selectCount(T record) {
-	
+
 		return getMapper().selectCount(record);
 	}
 
 	/**
 	 * 根据主键进行查询,必须保证结果唯一 单个字段做主键时,可以直接写主键的值 联合主键时,key可以是实体类,也可以是Map
-	 * 
+	 *
 	 * @param key 主键
 	 * @return T  影响行数
 	 */
@@ -91,7 +94,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 	/**
 	 * 插入一条数据 支持Oracle序列,UUID,类似Mysql的INDENTITY自动增长(自动回写)
 	 * 优先使用传入的参数值,参数值空时,才会使用序列、UUID,自动增长
-	 * 
+	 *
 	 * @param record 对象
 	 * @return int 影响行数
 	 */
@@ -104,7 +107,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 	 * 插入一条数据,只插入不为null的字段,不会影响有默认值的字段
 	 * 支持Oracle序列,UUID,类似Mysql的INDENTITY自动增长(自动回写)
 	 * 优先使用传入的参数值,参数值空时,才会使用序列、UUID,自动增长
-	 * 
+	 *
 	 * @param record 对象
 	 * @return int 影响行数
 	 */
@@ -115,7 +118,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 
 	/**
 	 * 根据实体类不为null的字段进行查询,条件全部使用=号and条件
-	 * 
+	 *
 	 * @param key 主键
 	 * @return int 影响行数
 	 */
@@ -126,7 +129,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 
 	/**
 	 * 通过主键进行删除,这里最多只会删除一条数据 单个字段做主键时,可以直接写主键的值 联合主键时,key可以是实体类,也可以是Map
-	 * 
+	 *
 	 * @param key 主键
 	 * @return int 影响行数
 	 */
@@ -137,7 +140,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 
 	/**
 	 * 根据主键进行更新,这里最多只会更新一条数据 参数为实体类
-	 * 
+	 *
 	 * @param record 对象
 	 * @return int 影响行数
 	 */
@@ -148,7 +151,7 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 
 	/**
 	 * 根据主键进行更新 只会更新不是null的数据
-	 * 
+	 *
 	 * @param record 对象
 	 * @return int 影响行数
 	 */
@@ -159,23 +162,30 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 
 	/**
 	 * 保存或者更新，根据传入id主键是不是null来确认
-	 * 
+	 *
 	 * @param record 对象
-	 * @return int 影响行数
+	 * @return T 返回的对象
 	 */
 	@Override
-	public int save(T record) {
-		int count = 0;
+	public T save(T record) {
 		if (record.getId() == null) {
-			count = this.insertSelective(record);
+			String id = UUID.randomUUID().toString().replace("-", "");
+			record.setId(id);
+			int count = this.insertSelective(record);
+			if(count> 0){
+				return record;
+			}
 		} else {
-			count = this.updateByPrimaryKeySelective(record);
+			int count = this.updateByPrimaryKeySelective(record);
+			if(count > 0){
+				return this.selectOne(record);
+			}
 		}
-		return count;
+		return null;
 	}
 
 	/**
-   	 *(单表分页可排序) 
+   	 *(单表分页可排序)
    	 * @param pageNum 当前页
    	 * @param pageSize 页码
    	 * @param record 对象
@@ -186,9 +196,9 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 		PageHelper.startPage(pageNum, pageSize);
 		return new PageInfo<T>(getMapper().select(record));
 	}
-	
+
 	/**
-	 * (单表分页可排序) 
+	 * (单表分页可排序)
 	 * @param pageNum 当前页
 	 * @param pageSize 页码
 	 * @param record 对象
@@ -213,6 +223,27 @@ public abstract class BaseServiceImpl< T extends BaseEntity> implements BaseServ
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage(), e);
 		}
+	}
+
+
+	/**
+	 * 批量保存
+	 *
+	 * @param record 对象
+	 * @return List<T> 返回的对象
+	 */
+	public List<T> batchSave(List<T> record) {
+		ArrayList<T> arrayList = Lists.newArrayList();
+		if(CollectionUtils.isEmpty(record)){
+			return null;
+		}
+		for (T item : record) {
+			T saveResult = this.save(item);
+			if(saveResult != null){
+				arrayList.add(saveResult);
+			}
+		}
+		return arrayList;
 	}
 
 }
