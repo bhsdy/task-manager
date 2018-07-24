@@ -36,7 +36,10 @@ public class FrontTaskService extends BaseServiceImpl<FrontTask> {
 	public FrontTask save(FrontTask record) {
 		FrontTask frontTask = super.save(record);
 		if(frontTask != null){
-			List<FrontTaskNode> frontTaskNodes = frontTaskNodeService.batchSave(frontTask.getFrontTaskNodeList());
+			record.getFrontTaskNodeList().forEach(item ->{
+				item.setTaskId(frontTask.getId());
+			});
+			List<FrontTaskNode> frontTaskNodes = frontTaskNodeService.batchSave(record.getFrontTaskNodeList());
 			frontTask.setFrontTaskNodeList(frontTaskNodes);
 		}
 		return frontTask;
@@ -49,10 +52,16 @@ public class FrontTaskService extends BaseServiceImpl<FrontTask> {
 		PageInfo<FrontTask> frontTaskPageInfo = super.selectPage(record.getRows(), record.getPage(), record);
 		List<FrontTask> frontTaskList = frontTaskPageInfo.getList();
 		frontTaskList.forEach(item ->{
+			//数据字典：优先级
 			SysDict sysDict = new SysDict();
 			sysDict.setDictCode(item.getDictCode());
 			SysDict sysDictQuery = sysDictService.selectOne(sysDict);
 			item.setSysDict(sysDictQuery);
+			//时间节点
+			FrontTaskNode frontTaskNode = new FrontTaskNode();
+			frontTaskNode.setTaskId(item.getId());
+			List<FrontTaskNode> frontTaskNodeList = frontTaskNodeService.select(frontTaskNode, "time DESC");
+			item.setFrontTaskNodeList(frontTaskNodeList);
 		});
 		return frontTaskPageInfo;
 	}

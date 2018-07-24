@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Johan
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/frontTask")
 @Api(value = "FrontTaskController", description = "任务接口")
 public class FrontTaskController extends CommonController {
 	@Autowired
