@@ -36,9 +36,9 @@ public class SysDictController extends CommonController {
 		List<SysDict> sysDictList;
 		try {
 			sysDictList = sysDictService.select(record);
+			return FastJsonUtils.toResponse(ResultCode.SUCC, sysDictList);
 		}catch (Exception x){
 			return FastJsonUtils.toResponse(ResultCode.FAILED,null);
 		}
-		return FastJsonUtils.resultSuccess("200", "成功", sysDictList);
 	}
 }

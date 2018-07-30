@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.taskManager.domain.mapper.frontend.FrontTaskMapper" >
+    <resultMap id="SysTaskMap" type="com.cn.taskManager.domain.entity.FrontTask" >
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+        <result column="source" jdbcType="VARCHAR" property="source" />
+        <result column="accomplish" jdbcType="VARCHAR" property="accomplish" />
+        <result column="dict_code" jdbcType="VARCHAR" property="dict_code" />
+        <result column="task_detail" jdbcType="VARCHAR" property="taskDetail" />
+        <result column="input" jdbcType="VARCHAR" property="input" />
+        <result column="output" jdbcType="VARCHAR" property="output" />
+        <result column="progress" jdbcType="VARCHAR" property="progress" />
+        <result column="progress" jdbcType="VARCHAR" property="progress" />
+    </resultMap>
+
 
 </mapper>

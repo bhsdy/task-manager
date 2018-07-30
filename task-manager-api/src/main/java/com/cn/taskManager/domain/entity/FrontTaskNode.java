@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 @Data
 @Table(name = "front_task_node")
@@ -17,5 +18,6 @@ public class FrontTaskNode extends BaseEntity {
     private String log;
     @Column(name = "output")
     private String output;
-
+    @Transient
+    private FrontTask frontTask;
 }

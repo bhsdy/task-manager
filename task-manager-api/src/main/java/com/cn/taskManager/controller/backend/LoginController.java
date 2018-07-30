@@ -67,6 +67,7 @@ public class LoginController extends CommonController {
 			return FastJsonUtils.resultError("-100", "账号不能为空", null);
 		}
 		record.setPassword(DigestUtils.md5Hex(record.getPassword()));
+
 		SysUser adminUser = sysUserService.selectOne(record);
 		if(adminUser == null) {
 			return FastJsonUtils.resultError("-100", "帐号与密码错误不正确", null);
@@ -123,11 +124,16 @@ public class LoginController extends CommonController {
 		SysUser record = new SysUser();
 		record.setUserName(splits[0]);
 		record.setUserName(splits[1]);
-		SysUser user = sysUserService.selectOne(record);
-		if(user == null) {
+		SysUser user = null;
+		try {
+			user = sysUserService.selectOne(record);
+			if(user == null) {
+				return FastJsonUtils.resultError("-400", "重新登录失败", null);
+			}
+			return FastJsonUtils.resultSuccess("200", "重新登录成功", null);
+		} catch (Exception e) {
 			return FastJsonUtils.resultError("-400", "重新登录失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "重新登录成功", null);
 	}
 
 	/**
@@ -191,6 +197,13 @@ public class LoginController extends CommonController {
 		@ApiImplicitParam(name = "new_pwd", value ="新密码", required = true, dataType = "String")
 	})
 	public String setInfo(String old_pwd, String new_pwd){
-		return sysUserService.setInfo(this.getCurrentUser(),old_pwd, new_pwd);
+		String setInfo = null;
+		try {
+			setInfo = sysUserService.setInfo(this.getCurrentUser(), old_pwd, new_pwd);
+			return FastJsonUtils.resultSuccess("200", "修改密码成功", setInfo);
+		} catch (Exception e) {
+			return FastJsonUtils.resultSuccess("-200", "修改密码失败", null);
+		}
+
 	}
 }

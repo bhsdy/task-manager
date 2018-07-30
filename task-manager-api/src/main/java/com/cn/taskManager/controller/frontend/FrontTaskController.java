@@ -4,8 +4,10 @@ import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.enums.ResultCode;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.FrontTask;
+import com.cn.taskManager.domain.entity.FrontTaskNode;
 import com.cn.taskManager.domain.entity.SysConfig;
 import com.cn.taskManager.domain.mapper.backend.SysConfigMapper;
+import com.cn.taskManager.domain.service.frontend.FrontTaskNodeService;
 import com.cn.taskManager.domain.service.frontend.FrontTaskService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -31,6 +33,8 @@ import java.util.Map;
 public class FrontTaskController extends CommonController {
 	@Autowired
 	private FrontTaskService frontTaskService;
+	@Autowired
+	private FrontTaskNodeService frontTaskNodeService;
 
 	@ApiOperation(value = "新增任务", httpMethod="POST")
 	@PostMapping(value = "/save", produces = {"application/json;charset=UTF-8"})
@@ -46,5 +50,12 @@ public class FrontTaskController extends CommonController {
 	public String queryTaskList(@RequestBody(required=false) FrontTask record, HttpServletRequest request) {
 		PageInfo<FrontTask> frontTaskPageInfo = frontTaskService.queryTaskList(record);
 		return FastJsonUtils.toResponse(ResultCode.SUCC, frontTaskPageInfo);
+	}
+
+	@ApiOperation(value = "获取高危任务", httpMethod="POST")
+	@PostMapping(value = "/queryHeightTaskList", produces = {"application/json;charset=UTF-8"})
+	public String queryHeightTaskList(@RequestBody(required=false) FrontTask record, HttpServletRequest request) {
+		List<FrontTaskNode> frontTaskNodes = frontTaskNodeService.queryHeightTaskList(record);
+		return FastJsonUtils.toResponse(ResultCode.SUCC, frontTaskNodes);
 	}
 }

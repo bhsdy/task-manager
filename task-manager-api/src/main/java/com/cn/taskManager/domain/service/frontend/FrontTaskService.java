@@ -65,4 +65,5 @@ public class FrontTaskService extends BaseServiceImpl<FrontTask> {
 		});
 		return frontTaskPageInfo;
 	}
+
 }

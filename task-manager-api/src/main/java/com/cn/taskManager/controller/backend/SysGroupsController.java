@@ -1,6 +1,7 @@
 package com.cn.taskManager.controller.backend;
 
 import com.cn.taskManager.common.CommonController;
+import com.cn.taskManager.common.enums.ResultCode;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysGroup;
 import com.cn.taskManager.domain.service.backend.SysGroupService;
@@ -32,8 +33,13 @@ public class SysGroupsController extends CommonController {
 	@GetMapping(value = "", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String index(HttpServletRequest request) {
-		List<Map<String, Object>> goups = sysGroupService.getDataList();
-		return FastJsonUtils.resultSuccess("200", "成功", goups);
+		List<Map<String, Object>> goups;
+		try {
+			goups = sysGroupService.getDataList();
+			return FastJsonUtils.toResponse(ResultCode.SUCC, goups);
+		}catch (Exception e){
+			return FastJsonUtils.toResponse(ResultCode.FAILED, null);
+		}
 	}
 
 	/**
@@ -43,8 +49,13 @@ public class SysGroupsController extends CommonController {
 	@GetMapping(value = "edit/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String read(@PathVariable Integer id, HttpServletRequest request) {
-		SysGroup goup = sysGroupService.selectByPrimaryKey(id);
-		return FastJsonUtils.resultSuccess("200", "成功", goup);
+		SysGroup goup;
+		try {
+			goup = sysGroupService.selectByPrimaryKey(id);
+			return FastJsonUtils.toResponse(ResultCode.SUCC, goup);
+		}catch (Exception e){
+			return FastJsonUtils.toResponse(ResultCode.FAILED, null);
+		}
 	}
 
 	/**
@@ -57,11 +68,17 @@ public class SysGroupsController extends CommonController {
 		if(record.getPid() == null) {
 			record.setPid("0");
 		}
-		SysGroup saveResult = sysGroupService.save(record);
-		if(saveResult == null) {
-			return FastJsonUtils.resultError("-200", "保存失败", null);
+		SysGroup saveResult = null;
+		try {
+			saveResult = sysGroupService.save(record);
+			if(saveResult == null) {
+				return FastJsonUtils.toResponse(ResultCode.FAILED, null);
+			}
+			return FastJsonUtils.toResponse(ResultCode.SUCC, saveResult);
+		} catch (Exception e) {
+			return FastJsonUtils.toResponse(ResultCode.FAILED, null);
 		}
-		return FastJsonUtils.resultSuccess("200", "成功", null);
+
 	}
 
 
@@ -72,11 +89,16 @@ public class SysGroupsController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysGroup record,HttpServletRequest request) {
-		SysGroup saveResult = sysGroupService.save(record);
-		if(saveResult == null) {
+		SysGroup saveResult = null;
+		try {
+			saveResult = sysGroupService.save(record);
+			if(saveResult == null) {
+				return FastJsonUtils.resultError("-200", "更新失败", null);
+			}
+			return FastJsonUtils.resultSuccess("200", "更新成功", null);
+		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "更新成功", null);
 	}
 
 	/**
@@ -86,11 +108,16 @@ public class SysGroupsController extends CommonController {
 	@DeleteMapping(value = "delete/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String delete(@PathVariable Integer id) {
-		int row = sysGroupService.deleteByPrimaryKey(id);
-		if(row == 0) {
+		int row = 0;
+		try {
+			row = sysGroupService.deleteByPrimaryKey(id);
+			if(row == 0) {
+				return FastJsonUtils.resultError("-200", "删除失败", null);
+			}
+			return FastJsonUtils.resultSuccess("200", "删除成功", null);
+		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "删除成功", null);
 	}
 
 	/**
@@ -112,7 +139,7 @@ public class SysGroupsController extends CommonController {
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "成功", null);
+		return FastJsonUtils.resultSuccess("200", "保存成功", null);
 	}
 
 	/**
@@ -138,6 +165,6 @@ public class SysGroupsController extends CommonController {
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "成功", null);
+		return FastJsonUtils.resultSuccess("200", "保存成功", null);
 	}
 }

@@ -32,11 +32,15 @@ public class ConfigController extends CommonController {
 	@PostMapping(value = "/configs", produces = {"application/json;charset=UTF-8"})
 	public String configs(@RequestBody(required=false) SysConfig record, HttpServletRequest request) {
 		Map<String, Object> data = new HashMap<>();
-		if(record != null){
-			List<SysConfig> configs = sysConfigMapper.select(record);
-			for (SysConfig c : configs) {
-				data.put(c.getName(), c.getValue());
+		try {
+			if(record != null){
+				List<SysConfig> configs = sysConfigMapper.select(record);
+				for (SysConfig c : configs) {
+					data.put(c.getName(), c.getValue());
+				}
 			}
+		} catch (Exception e) {
+			return FastJsonUtils.resultSuccess("-200", "查询配置失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "查询配置成功", data);
 	}
