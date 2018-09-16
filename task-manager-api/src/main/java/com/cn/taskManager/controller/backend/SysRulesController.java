@@ -1,6 +1,5 @@
 package com.cn.taskManager.controller.backend;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysRule;

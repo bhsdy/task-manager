@@ -4,20 +4,15 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.enums.ResultCode;
 import com.cn.taskManager.common.utils.FastJsonUtils;
-import com.cn.taskManager.domain.entity.SysConfig;
 import com.cn.taskManager.domain.entity.SysDict;
-import com.cn.taskManager.domain.mapper.backend.SysConfigMapper;
 import com.cn.taskManager.domain.service.backend.SysDictService;
-import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 数据字典接口

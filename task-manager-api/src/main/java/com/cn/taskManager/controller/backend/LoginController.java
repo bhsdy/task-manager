@@ -8,7 +8,6 @@ import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.*;
 import com.cn.taskManager.domain.service.backend.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -18,7 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.schema.Collections;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
