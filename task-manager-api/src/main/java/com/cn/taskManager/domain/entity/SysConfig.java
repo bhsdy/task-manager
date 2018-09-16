@@ -1,21 +1,20 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-
 @Data
-@Table(name="sys_config")
-public class SysConfig extends BaseEntity {
-    @Column(name = "name")
+@TableName("sys_config")
+public class SysConfig extends SuperEntity<SysConfig> {
+    @TableField("name")
     private String name;
-    @Column(name = "value")
+    @TableField("value")
     private String value;
-    @Column(name = "group")
+    @TableField("group")
     private Byte group;
-    @Column(name = "need_auth")
+    @TableField("need_auth")
     private Byte needAuth;
 
 }

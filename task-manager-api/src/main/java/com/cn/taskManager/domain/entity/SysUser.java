@@ -1,37 +1,55 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.Date;
 
 @Data
-@Table(name = "sys_user")
-public class SysUser extends BaseEntity {
-    @Column(name = "user_name")
+@TableName("sys_user")
+@ApiModel(value="user对象",description="用户对象user")
+public class SysUser extends SuperEntity<SysUser> {
+    @TableField("user_name")
+    @ApiModelProperty(value="用户名")
     private String userName;
-    @Column(name = "password")
+
+    @ApiModelProperty(value="用户密码")
+    @TableField("password")
     private String password;
-    @Column(name = "remark")
+
+    @TableField("remark")
+    @ApiModelProperty(value="备注")
     private String remark;
-    @Column(name = "create_time")
+
+    @TableField("create_time")
+    @ApiModelProperty(value="创建时间")
     private Date createTime;
-    @Column(name = "real_name")
+
+    @TableField("real_name")
+    @ApiModelProperty(value="真实名字")
     private String realName;
-    @Column(name = "structure_id")
+
+    @TableField("structure_id")
+    @ApiModelProperty(value="所属部门ID")
     private String structureId;
-    @Column(name = "post_id")
+
+    @TableField("post_id")
+    @ApiModelProperty(value="所属岗位ID")
     private String postId;
-    @Column(name = "status")
+
+    @TableField("status")
+    @ApiModelProperty(value="启用状态")
     private Byte status;
-    @Transient
+
+    @TableField(exist = false)
     private SysUserDetail sysUserDetail;
-    @Transient
+    @TableField(exist = false)
     private SysPost sysPost;
-    @Transient
+    @TableField(exist = false)
     private SysStructure sysStructure;
 
 }

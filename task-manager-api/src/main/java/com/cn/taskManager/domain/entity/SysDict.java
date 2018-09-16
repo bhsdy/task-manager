@@ -1,23 +1,21 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.List;
 
 @Data
-@Table(name = "sys_dict")
-public class SysDict extends BaseEntity {
-    @Column(name = "dict_code")
+@TableName("sys_dict")
+public class SysDict extends SuperEntity<SysDict> {
+    @TableField("dict_code")
     private String dictCode;
-    @Column(name = "name")
+    @TableField("name")
     private String name;
-    @Column(name = "status")
+    @TableField("status")
     private String status;
-    @Column(name = "dict_group_code")
+    @TableField("dict_group_code")
     private String dictGroupCode;
 
 }

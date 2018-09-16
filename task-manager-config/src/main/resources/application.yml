@@ -11,9 +11,10 @@ spring:
       server:
         git:
           uri: https://github.com/bhsdy/config/
-#          search-paths: config-repo
-          username:
-          password:
+          search-paths: bhsdy
+          username: bhsdy1024@163.com
+          password: bhsdy1024
+      label: master
 eureka:
     client:
         serviceUrl:

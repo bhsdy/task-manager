@@ -1,5 +1,6 @@
 package com.cn.taskManager.controller.backend;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysRule;
@@ -43,7 +44,9 @@ public class SysRulesController extends CommonController {
 	@GetMapping(value = "edit/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String read(@PathVariable Integer id, SysRule record, HttpServletRequest request) {
-		SysRule goup = sysRuleService.selectByPrimaryKey(record);
+//		EntityWrapper<SysRule> ew = new EntityWrapper<>();
+
+		SysRule goup = sysRuleService.selectById(id);
 		return FastJsonUtils.resultSuccess("200", "成功", goup);
 	}
 
@@ -54,8 +57,9 @@ public class SysRulesController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody SysRule record,HttpServletRequest request) {
-		SysRule saveResult = sysRuleService.save(record);
-		if(saveResult == null) {
+		record.setId(getUuid());
+		boolean insert = sysRuleService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -69,8 +73,9 @@ public class SysRulesController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody SysRule record,HttpServletRequest request) {
-		SysRule saveResult = sysRuleService.save(record);
-		if(saveResult == null) {
+		record.setId(getUuid());
+		boolean insert = sysRuleService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);
@@ -83,8 +88,8 @@ public class SysRulesController extends CommonController {
 	@DeleteMapping(value = "delete/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String delete(@PathVariable Integer id) {
-		int row = sysRuleService.deleteByPrimaryKey(id);
-		if(row == 0) {
+		boolean b = sysRuleService.deleteById(id);
+		if(! b) {
 			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "删除成功", null);
@@ -132,7 +137,7 @@ public class SysRulesController extends CommonController {
 				SysRule record = new SysRule();
 				record.setId(ids.get(i).toString());
 				record.setStatus(status);
-				sysRuleService.updateByPrimaryKeySelective(record);
+				sysRuleService.updateById(record);
 			}
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);

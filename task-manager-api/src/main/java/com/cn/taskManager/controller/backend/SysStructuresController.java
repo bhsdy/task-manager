@@ -43,7 +43,7 @@ public class SysStructuresController extends CommonController{
 	@GetMapping(value = "edit/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String read(@PathVariable Integer id, HttpServletRequest request) {
-		SysStructure goup = sysStructureService.selectByPrimaryKey(id);
+		SysStructure goup = sysStructureService.selectById(id);
 		return FastJsonUtils.resultSuccess("200", "成功", goup);
 	}
 
@@ -54,8 +54,9 @@ public class SysStructuresController extends CommonController{
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysStructure record,HttpServletRequest request) {
-		SysStructure saveResult = sysStructureService.save(record);
-		if(saveResult == null) {
+		record.setId(getUuid());
+		boolean insert = sysStructureService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -69,8 +70,9 @@ public class SysStructuresController extends CommonController{
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysStructure record,HttpServletRequest request) {
-		SysStructure saveResult = sysStructureService.save(record);
-		if(saveResult == null) {
+		record.setId(getUuid());
+		boolean insert = sysStructureService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);
@@ -83,8 +85,8 @@ public class SysStructuresController extends CommonController{
 	@DeleteMapping(value = "delete/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String delete(@PathVariable Integer id) {
-		int row = sysStructureService.deleteByPrimaryKey(id);
-		if(row == 0) {
+		boolean b = sysStructureService.deleteById(id);
+		if(! b) {
 			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "删除成功", null);
@@ -103,9 +105,7 @@ public class SysStructuresController extends CommonController{
 			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
-			for (int i = 0; i < ids.size(); i++) {
-				sysStructureService.deleteByPrimaryKey(ids.get(i));
-			}
+			sysStructureService.deleteBatchIds(ids);
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
@@ -130,7 +130,7 @@ public class SysStructuresController extends CommonController{
 				SysStructure record = new SysStructure();
 				record.setId(ids.get(0).toString());
 				record.setStatus(status);
-				sysStructureService.updateByPrimaryKeySelective(record);
+				sysStructureService.updateById(record);
 			}
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);

@@ -1,62 +1,61 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.List;
 
 @Data
-@Table(name = "sys_menu")
-public class SysMenu extends BaseEntity {
-    @Column(name = "pid")
+@TableName("sys_menu")
+public class SysMenu extends SuperEntity<SysMenu> {
+    @TableField("pid")
     private String pid;
-    @Column(name = "title")
+    @TableField("title")
     private String title;
-    @Column(name = "url")
+    @TableField("url")
     private String url;
-    @Column(name = "icon")
+    @TableField("icon")
     private String icon;
-    @Column(name = "menu_type")
+    @TableField("menu_type")
     private Byte menuType;
-    @Column(name = "sort")
+    @TableField("sort")
     private Byte sort;
-    @Column(name = "status")
+    @TableField("status")
     private Byte status;
-    @Column(name = "rule_id")
+    @TableField("rule_id")
     private String ruleId;
-    @Column(name = "module")
+    @TableField("module")
     private String module;
-    @Column(name = "menu")
+    @TableField("menu")
     private String menu;
-    @Column(name = "rule_name")
+    @TableField("rule_name")
     private String ruleName;
     /**
      * 子菜单
      */
-    @Transient
+    @TableField(exist = false)
     private List<SysMenu> child;
     /**
      * 是否选中
      */
-    @Transient
+    @TableField(exist = false)
     private Boolean selected = false;
     /**
      * 级别
      */
-    @Transient
+    @TableField(exist = false)
     private Integer level;
     /**
      * 全名
      */
-    @Transient
+    @TableField(exist = false)
     private String fullName;
     /**
      * 关键权限
      */
-    @Transient
+    @TableField(exist = false)
     private SysRule rule;
 
 }

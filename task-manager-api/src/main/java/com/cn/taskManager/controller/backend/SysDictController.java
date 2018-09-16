@@ -1,5 +1,6 @@
 package com.cn.taskManager.controller.backend;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.enums.ResultCode;
 import com.cn.taskManager.common.utils.FastJsonUtils;
@@ -35,10 +36,12 @@ public class SysDictController extends CommonController {
 	public String queryList(@RequestBody SysDict record, HttpServletRequest request) {
 		List<SysDict> sysDictList;
 		try {
-			sysDictList = sysDictService.select(record);
-			return FastJsonUtils.toResponse(ResultCode.SUCC, sysDictList);
+			EntityWrapper<SysDict> ew = new EntityWrapper<>();
+			ew.where("dict_group_code={0} and status={1}",record.getDictGroupCode(),record.getStatus());
+			sysDictList = sysDictService.selectList(ew);
 		}catch (Exception x){
 			return FastJsonUtils.toResponse(ResultCode.FAILED,null);
 		}
+		return FastJsonUtils.toResponse(ResultCode.SUCC, sysDictList);
 	}
 }

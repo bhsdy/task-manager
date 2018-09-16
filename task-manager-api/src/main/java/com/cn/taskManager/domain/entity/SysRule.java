@@ -1,26 +1,25 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.List;
 
 @Data
-@Table(name = "sys_rule")
-public class SysRule extends BaseEntity {
-    @Column(name = "title")
+@TableName("sys_rule")
+public class SysRule extends SuperEntity<SysRule> {
+    @TableField("title")
     private String title;
-    @Column(name = "rule_name")
+    @TableField("rule_name")
     private String ruleName;
-    @Column(name = "level")
+    @TableField("level")
     private Byte level;
-    @Column(name = "pid")
+    @TableField("pid")
     private String pid;
-    @Column(name = "status")
+    @TableField("status")
     private Byte status;
-    @Transient
+    @TableField(exist = false)
     private List<SysRule> child;
 }

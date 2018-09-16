@@ -1,5 +1,6 @@
 package com.cn.taskManager.controller.backend;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.cn.taskManager.common.CommonController;
 import com.cn.taskManager.common.constants.Constant;
 import com.cn.taskManager.common.utils.EncryptUtil;
@@ -7,6 +8,7 @@ import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.*;
 import com.cn.taskManager.domain.service.backend.*;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -14,7 +16,9 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.schema.Collections;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -23,10 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 登录控制层
@@ -67,41 +68,46 @@ public class LoginController extends CommonController {
 			return FastJsonUtils.resultError("-100", "账号不能为空", null);
 		}
 		record.setPassword(DigestUtils.md5Hex(record.getPassword()));
+		EntityWrapper<SysUser> ew = new EntityWrapper<>();
+		ew.where("user_name={0} and password={1}",record.getUserName(),record.getPassword());
+		List<SysUser> sysUserList = sysUserService.selectList(ew);
 
-		SysUser adminUser = sysUserService.selectOne(record);
-		if(adminUser == null) {
+		if(CollectionUtils.isEmpty(sysUserList)) {
 			return FastJsonUtils.resultError("-100", "帐号与密码错误不正确", null);
 		}
-		if(!adminUser.getStatus().equals(Byte.valueOf("1"))) {
+		if(sysUserList.get(0).getStatus().equals(0)){
+			return FastJsonUtils.resultError("-400", "该用户已作废", null);
+		}
+		SysUser sysUser = sysUserList.get(0);
+		if(!sysUser.getStatus().equals(Byte.valueOf("1"))) {
 			return FastJsonUtils.resultError("-100", "帐号已被禁用", null);
 		}
 		//查找用户详情
-		SysUserDetail sysUserDetail = new SysUserDetail();
-		sysUserDetail.setUserId(adminUser.getId());
-		SysUserDetail sysUserDetailQuery = sysUserDetailService.selectOne(sysUserDetail);
-		adminUser.setSysUserDetail(sysUserDetailQuery);
-		//查找用户岗位
-		SysPost sysPost = new SysPost();
-		sysPost.setId(adminUser.getPostId());
-		SysPost sysPostQuery = sysPostService.selectOne(sysPost);
-		adminUser.setSysPost(sysPostQuery);
-		//查找用户部门
-		if(sysPostQuery != null){
-			SysStructure sysStructure = new SysStructure();
-			sysStructure.setId(sysPostQuery.getStructureId());
-			SysStructure sysStructureQuery = sysStructureService.selectOne(sysStructure);
-			adminUser.setSysStructure(sysStructureQuery);
+		EntityWrapper<SysUserDetail> ew2 = new EntityWrapper<>();
+		ew2.where("user_id={0}",sysUser.getId());
+		List<SysUserDetail> sysUserDetailList = sysUserDetailService.selectList(ew2);
+		if(!CollectionUtils.isEmpty(sysUserDetailList)){
+			sysUser.setSysUserDetail(sysUserDetailList.get(0));
 		}
-		String authKey = EncryptUtil.encryptBase64(adminUser.getUserName()+"|"+adminUser.getPassword(), Constant.SECRET_KEY);
+		//查找用户岗位
+		SysPost sysPost = sysPostService.selectById(sysUser.getPostId());
+		if(sysPost != null){
+			sysUser.setSysPost(sysPost);
+			//查找用户部门
+			SysStructure sysStructure = sysStructureService.selectById(sysPost.getStructureId());
+			sysUser.setSysStructure(sysStructure);
+		}
+
+		String authKey = EncryptUtil.encryptBase64(sysUser.getUserName()+"|"+sysUser.getPassword(), Constant.SECRET_KEY);
 		// 返回信息
 		data.put("rememberKey", authKey);
 		data.put("authKey", authKey);
 		data.put("sessionId", request.getSession().getId());
-		data.put("userInfo", adminUser);
-		List<SysRule> rulesTreeList = sysRuleService.getTreeRuleByUserId(adminUser.getId());
+		data.put("userInfo", sysUser);
+		List<SysRule> rulesTreeList = sysRuleService.getTreeRuleByUserId(sysUser.getId());
 		List<String> rulesList = sysRuleService.rulesDeal(rulesTreeList);
 		data.put("rulesList", rulesList);
-		data.put("menusList", sysMenuService.getTreeMenuByUserId(adminUser.getId()));
+		data.put("menusList", sysMenuService.getTreeMenuByUserId(sysUser.getId()));
 
 		return FastJsonUtils.resultSuccess("200", "登录成功", data);
 	}
@@ -121,19 +127,17 @@ public class LoginController extends CommonController {
 	public String relogin(String rememberKey,HttpServletRequest request) {
 		String rememberValue = EncryptUtil.decryptBase64(rememberKey, Constant.SECRET_KEY);
 		String[] splits = rememberValue.split("|");
-		SysUser record = new SysUser();
-		record.setUserName(splits[0]);
-		record.setUserName(splits[1]);
-		SysUser user = null;
-		try {
-			user = sysUserService.selectOne(record);
-			if(user == null) {
-				return FastJsonUtils.resultError("-400", "重新登录失败", null);
-			}
-			return FastJsonUtils.resultSuccess("200", "重新登录成功", null);
-		} catch (Exception e) {
+		EntityWrapper<SysUser> ew = new EntityWrapper<>();
+		ew.where("user_name={0} and password={1}",splits[0],splits[1]);
+
+		List<SysUser> sysUserList = sysUserService.selectList(ew);
+		if(CollectionUtils.isEmpty(sysUserList)) {
 			return FastJsonUtils.resultError("-400", "重新登录失败", null);
 		}
+		if(sysUserList.get(0).getStatus().equals(0)){
+			return FastJsonUtils.resultError("-400", "该用户已作废", null);
+		}
+		return FastJsonUtils.resultSuccess("200", "重新登录成功", null);
 	}
 
 	/**
@@ -197,13 +201,11 @@ public class LoginController extends CommonController {
 		@ApiImplicitParam(name = "new_pwd", value ="新密码", required = true, dataType = "String")
 	})
 	public String setInfo(String old_pwd, String new_pwd){
-		String setInfo = null;
 		try {
-			setInfo = sysUserService.setInfo(this.getCurrentUser(), old_pwd, new_pwd);
-			return FastJsonUtils.resultSuccess("200", "修改密码成功", setInfo);
+			sysUserService.setInfo(this.getCurrentUser(), old_pwd, new_pwd);
 		} catch (Exception e) {
-			return FastJsonUtils.resultSuccess("-200", "修改密码失败", null);
+			return FastJsonUtils.resultSuccess("1001", "修改失败", e.getMessage());
 		}
-
+		return FastJsonUtils.resultSuccess("200", "修改成功", null);
 	}
 }

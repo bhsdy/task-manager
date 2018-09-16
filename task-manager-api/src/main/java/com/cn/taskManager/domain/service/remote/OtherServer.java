@@ -1,7 +1,7 @@
 package com.cn.taskManager.domain.service.remote;
 
 import com.cn.taskManager.domain.service.hystrix.OtherServerHystrix;
-import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

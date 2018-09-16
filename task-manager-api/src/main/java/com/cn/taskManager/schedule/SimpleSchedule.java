@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Component
 public class SimpleSchedule {
 
-    @Scheduled(cron = "0 0/10 * * * ?")
+   /* @Scheduled(cron = "0 0/10 * * * ?")
     private void run(){
         System.out.printf("我是定时任务", LocalDateTime.now());
-    }
+    }*/
 }

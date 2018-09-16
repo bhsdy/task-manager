@@ -1,7 +1,6 @@
 package com.cn.taskManager.controller.backend;
 
 import com.cn.taskManager.common.CommonController;
-import com.cn.taskManager.common.enums.ResultCode;
 import com.cn.taskManager.common.utils.FastJsonUtils;
 import com.cn.taskManager.domain.entity.SysGroup;
 import com.cn.taskManager.domain.service.backend.SysGroupService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * 系统分组 控制层
@@ -33,13 +33,8 @@ public class SysGroupsController extends CommonController {
 	@GetMapping(value = "", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String index(HttpServletRequest request) {
-		List<Map<String, Object>> goups;
-		try {
-			goups = sysGroupService.getDataList();
-			return FastJsonUtils.toResponse(ResultCode.SUCC, goups);
-		}catch (Exception e){
-			return FastJsonUtils.toResponse(ResultCode.FAILED, null);
-		}
+		List<Map<String, Object>> goups = sysGroupService.getDataList();
+		return FastJsonUtils.resultSuccess("200", "成功", goups);
 	}
 
 	/**
@@ -49,13 +44,9 @@ public class SysGroupsController extends CommonController {
 	@GetMapping(value = "edit/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String read(@PathVariable Integer id, HttpServletRequest request) {
-		SysGroup goup;
-		try {
-			goup = sysGroupService.selectByPrimaryKey(id);
-			return FastJsonUtils.toResponse(ResultCode.SUCC, goup);
-		}catch (Exception e){
-			return FastJsonUtils.toResponse(ResultCode.FAILED, null);
-		}
+
+		SysGroup goup = sysGroupService.selectById(id);
+		return FastJsonUtils.resultSuccess("200", "成功", goup);
 	}
 
 	/**
@@ -68,17 +59,12 @@ public class SysGroupsController extends CommonController {
 		if(record.getPid() == null) {
 			record.setPid("0");
 		}
-		SysGroup saveResult = null;
-		try {
-			saveResult = sysGroupService.save(record);
-			if(saveResult == null) {
-				return FastJsonUtils.toResponse(ResultCode.FAILED, null);
-			}
-			return FastJsonUtils.toResponse(ResultCode.SUCC, saveResult);
-		} catch (Exception e) {
-			return FastJsonUtils.toResponse(ResultCode.FAILED, null);
+		record.setId(getUuid());
+		boolean insert = sysGroupService.insert(record);
+		if(! insert) {
+			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
 
 
@@ -89,16 +75,12 @@ public class SysGroupsController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysGroup record,HttpServletRequest request) {
-		SysGroup saveResult = null;
-		try {
-			saveResult = sysGroupService.save(record);
-			if(saveResult == null) {
-				return FastJsonUtils.resultError("-200", "更新失败", null);
-			}
-			return FastJsonUtils.resultSuccess("200", "更新成功", null);
-		} catch (Exception e) {
+		record.setId(getUuid());
+		boolean insert = sysGroupService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
+		return FastJsonUtils.resultSuccess("200", "更新成功", null);
 	}
 
 	/**
@@ -108,16 +90,11 @@ public class SysGroupsController extends CommonController {
 	@DeleteMapping(value = "delete/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String delete(@PathVariable Integer id) {
-		int row = 0;
-		try {
-			row = sysGroupService.deleteByPrimaryKey(id);
-			if(row == 0) {
-				return FastJsonUtils.resultError("-200", "删除失败", null);
-			}
-			return FastJsonUtils.resultSuccess("200", "删除成功", null);
-		} catch (Exception e) {
+		boolean b = sysGroupService.deleteById(id);
+		if(! b) {
 			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
+		return FastJsonUtils.resultSuccess("200", "删除成功", null);
 	}
 
 	/**
@@ -133,13 +110,14 @@ public class SysGroupsController extends CommonController {
 			return FastJsonUtils.resultError("-200", "操作失败", null);
 		}
 		try {
-			for (int i = 0; i < ids.size(); i++) {
-				sysGroupService.deleteByPrimaryKey(ids.get(i));
+			boolean b = sysGroupService.deleteBatchIds(ids);
+			if(b){
+				FastJsonUtils.resultSuccess("200", "成功", null);
 			}
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "保存成功", null);
+		return FastJsonUtils.resultError("-200", "保存失败", null);
 	}
 
 	/**
@@ -160,11 +138,12 @@ public class SysGroupsController extends CommonController {
 				SysGroup record = new SysGroup();
 				record.setId(ids.get(0).toString());
 				record.setStatus(status);
-				sysGroupService.updateByPrimaryKeySelective(record);
+				sysGroupService.updateById(record);
 			}
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
-		return FastJsonUtils.resultSuccess("200", "保存成功", null);
+		return FastJsonUtils.resultSuccess("200", "成功", null);
 	}
+
 }

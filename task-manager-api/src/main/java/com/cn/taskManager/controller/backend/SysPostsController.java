@@ -43,7 +43,7 @@ public class SysPostsController extends CommonController {
 	@GetMapping(value = "edit/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String read(@PathVariable Integer id,HttpServletRequest request) {
-		SysPost goup = sysPostService.selectByPrimaryKey(id);
+		SysPost goup = sysPostService.selectById(id);
 		return FastJsonUtils.resultSuccess("200", "成功", goup);
 	}
 
@@ -54,8 +54,9 @@ public class SysPostsController extends CommonController {
 	@PostMapping(value = "save", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String save(@RequestBody(required=false) SysPost record,HttpServletRequest request) {
-		SysPost saveResult = sysPostService.save(record);
-		if(saveResult == null) {
+		record.setId(getUuid());
+		boolean insert = sysPostService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "成功", null);
@@ -69,8 +70,9 @@ public class SysPostsController extends CommonController {
 	@PostMapping(value = "update", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String update(@RequestBody(required=false) SysPost record,HttpServletRequest request) {
-		SysPost saveResult = sysPostService.save(record);
-		if(saveResult == null) {
+		record.setId(getUuid());
+		boolean insert = sysPostService.insert(record);
+		if(! insert) {
 			return FastJsonUtils.resultError("-200", "更新失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "更新成功", null);
@@ -83,8 +85,8 @@ public class SysPostsController extends CommonController {
 	@DeleteMapping(value = "delete/{id}", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String delete(@PathVariable Integer id) {
-		int row = sysPostService.deleteByPrimaryKey(id);
-		if(row == 0) {
+		boolean b = sysPostService.deleteById(id);
+		if(! b) {
 			return FastJsonUtils.resultError("-200", "删除失败", null);
 		}
 		return FastJsonUtils.resultSuccess("200", "删除成功", null);
@@ -130,7 +132,7 @@ public class SysPostsController extends CommonController {
 				SysPost record = new SysPost();
 				record.setId(ids.get(0).toString());
 				record.setStatus(status);
-				sysPostService.updateByPrimaryKeySelective(record);
+				sysPostService.updateById(record);
 			}
 		} catch (Exception e) {
 			return FastJsonUtils.resultError("-200", "保存失败", null);

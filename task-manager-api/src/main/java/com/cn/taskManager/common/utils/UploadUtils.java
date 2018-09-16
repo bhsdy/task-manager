@@ -30,7 +30,8 @@ public class UploadUtils {
 		try {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
 			String dateString = simpleDateFormat.format(new Date());
-			File dir = new File(multipartLocation+"/upload/" + (StringUtils.isNotEmpty(module) == true ? module+"/"+dateString:dateString));
+//			File dir = new File(multipartLocation+"/upload/" + (StringUtils.isNotEmpty(module) == true ? module+"/"+dateString:dateString));
+			File dir = new File(multipartLocation);
 			if (!dir.exists()) {
 				if (!dir.mkdirs()) {
 					throw new Exception("创建保存目录失败");
@@ -39,7 +40,8 @@ public class UploadUtils {
 			String fileName = UUID.randomUUID().toString() + "."
 					+ FilenameUtils.getExtension(file.getOriginalFilename()).toLowerCase();
 			file.transferTo(new File(dir, fileName));
-			return "/upload/" +(StringUtils.isNotEmpty(module) == true ? module+"/"+dateString:dateString) + "/" + fileName;
+//			return "/upload/" +(StringUtils.isNotEmpty(module) == true ? module+"/"+dateString:dateString) + "/" + fileName;
+			return multipartLocation + fileName;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,19 +1,18 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-
 @Data
-@Table(name = "sys_structure")
-public class SysStructure extends BaseEntity {
-    @Column(name = "name")
+@TableName("sys_structure")
+public class SysStructure extends SuperEntity<SysStructure> {
+    @TableField("name")
     private String name;
-    @Column(name = "pid")
+    @TableField("pid")
     private String pid;
-    @Column(name = "status")
+    @TableField("status")
     private Byte status;
 
 }

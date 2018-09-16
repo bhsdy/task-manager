@@ -1,23 +1,21 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.Date;
 @Data
-@Table(name = "front_task_node")
-public class FrontTaskNode extends BaseEntity {
-    @Column(name = "task_id")
+@TableName("front_task_node")
+public class FrontTaskNode extends SuperEntity<FrontTaskNode> {
+    @TableField("task_id")
     private String taskId;
-    @Column(name = "time")
+    @TableField("time")
     private Date time;
-    @Column(name = "log")
+    @TableField("log")
     private String log;
-    @Column(name = "output")
+    @TableField("output")
     private String output;
-    @Transient
-    private FrontTask frontTask;
+
 }

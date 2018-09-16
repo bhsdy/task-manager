@@ -1,22 +1,21 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Data
-@Table(name = "sys_user_detail")
-public class SysUserDetail extends BaseEntity {
-    @Column(name = "user_id")
+@TableName("sys_user_detail")
+public class SysUserDetail extends SuperEntity<SysUser> {
+    @TableField("user_id")
     private String userId;
-    @Column(name = "email")
+    @TableField("email")
     private String email;
-    @Column(name = "phone")
+    @TableField("phone")
     private String phone;
-    @Column(name = "photo")
+    @TableField("photo")
     private String photo;
 
 }

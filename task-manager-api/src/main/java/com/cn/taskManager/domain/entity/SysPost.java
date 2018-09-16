@@ -1,22 +1,22 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
 import java.util.Date;
 @Data
-@Table(name = "sys_post")
-public class SysPost extends BaseEntity {
-    @Column(name = "name")
+@TableName("sys_post")
+public class SysPost extends SuperEntity<SysPost> {
+    @TableField("name")
     private String name;
-    @Column(name = "remark")
+    @TableField("remark")
     private String remark;
-    @Column(name = "create_time")
+    @TableField("create_time")
     private Date createTime;
-    @Column(name = "status")
+    @TableField("status")
     private Byte status;
-    @Column(name = "structure_id")
+    @TableField("structure_id")
     private String structureId;
 }

@@ -1,86 +1,51 @@
 package com.cn.taskManager.config;
 
-
-import com.cn.taskManager.common.utils.ByteObjectUtils;
-import com.cn.taskManager.common.utils.EscapeUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachingConfigurerSupport;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.SerializationException;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.net.UnknownHostException;
-import java.nio.charset.Charset;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * redis配置
+ * Redis缓存配置类
+ * @author szekinwin
  *
- * @author evan
  */
 @Configuration
-public class RedisConfig {
-    @Value("${spring.redis.expire-time:1800}")
-    private Long expireTime = 1800L;
-    
-    /**
-     * 对象缓存器
-     *
-     * @param redisConnectionFactory
-     * @return
-     * @throws UnknownHostException
-     */
+@EnableCaching
+public class RedisConfig extends CachingConfigurerSupport {
+
+    //缓存管理器
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
-        RedisTemplate<Object, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory);
-        RedisSerializer<Object> base64RedisSerializer = new RedisSerializer<Object>() {
-            
-            @Override
-            public byte[] serialize(Object t) throws SerializationException {
-                byte[] bs = ByteObjectUtils.objectToByte(t);
-                String base64 = EscapeUtils.encodeBase64(bs);
-                return base64.getBytes(Charset.forName("UTF-8"));
-            }
-            
-            @Override
-            public Object deserialize(byte[] bytes) throws SerializationException {
-                String base64 = new String(bytes, Charset.forName("UTF-8"));
-                byte[] bs = EscapeUtils.decodeBase64(base64);
-                return ByteObjectUtils.byteToObject(bs);
-            }
-        };
-        template.setKeySerializer(base64RedisSerializer);
-        template.setValueSerializer(base64RedisSerializer);
-        return template;
-    }
-    
-    /**
-     * 字符串缓存器
-     *
-     * @param redisConnectionFactory
-     * @return
-     * @throws UnknownHostException
-     */
-    @Bean
-    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
-        StringRedisTemplate template = new StringRedisTemplate();
-        template.setConnectionFactory(redisConnectionFactory);
-        RedisSerializer<String> stringSerializer = new StringRedisSerializer();
-        template.setKeySerializer(stringSerializer);
-        template.setValueSerializer(stringSerializer);
-        return template;
-    }
-    
-    @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        cacheManager.setDefaultExpiration(expireTime);
+    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        //user信息缓存配置
+        RedisCacheConfiguration userCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofSeconds(10)).disableCachingNullValues().prefixKeysWith("user");
+        Map<String, RedisCacheConfiguration> redisCacheConfigurationMap = new HashMap<>();
+        redisCacheConfigurationMap.put("user", userCacheConfiguration);
+        //初始化一个RedisCacheWriter
+        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
+
+
+//        设置CacheManager的值序列化方式为JdkSerializationRedisSerializer,但其实RedisCacheConfiguration默认就是使用StringRedisSerializer序列化key，JdkSerializationRedisSerializer序列化value,所以以下注释代码为默认实现
+//        ClassLoader loader = this.getClass().getClassLoader();
+//        JdkSerializationRedisSerializer jdkSerializer = new JdkSerializationRedisSerializer(loader);
+//        RedisSerializationContext.SerializationPair<Object> pair = RedisSerializationContext.SerializationPair.fromSerializer(jdkSerializer);
+//        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);
+
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig();
+
+        //设置默认超过期时间是30秒
+        defaultCacheConfig.entryTtl(Duration.ofSeconds(30));
+        //初始化RedisCacheManager
+        RedisCacheManager cacheManager = new RedisCacheManager(redisCacheWriter, defaultCacheConfig, redisCacheConfigurationMap);
         return cacheManager;
     }
 }

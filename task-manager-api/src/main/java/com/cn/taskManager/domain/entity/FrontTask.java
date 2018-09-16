@@ -1,36 +1,35 @@
 package com.cn.taskManager.domain.entity;
 
-import com.cn.taskManager.common.BaseEntity;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableName;
+import com.cn.taskManager.common.mybatisplus.SuperEntity;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.List;
 
 @Data
-@Table(name = "front_task")
-public class FrontTask extends BaseEntity {
-    @Column(name = "task_name")
+@TableName("front_task")
+public class FrontTask extends SuperEntity<FrontTask> {
+    @TableField("task_name")
     private String taskName;
-    @Column(name = "source")
+    @TableField("source")
     private String source;
-    @Column(name = "accomplish")
+    @TableField("accomplish")
     private String accomplish;
-    @Column(name = "dict_code")
+    @TableField("dict_code")
     private String dictCode;
-    @Column(name = "task_detail")
+    @TableField("task_detail")
     private String taskDetail;
-    @Column(name = "input")
+    @TableField("input")
     private String input;
-    @Column(name = "output")
+    @TableField("output")
     private String output;
-    @Column(name = "progress")
+    @TableField("progress")
     private String progress;
-    @Column(name = "remark")
+    @TableField("remark")
     private String remark;
-    @Transient
+    @TableField(exist = false)
     private List<FrontTaskNode> frontTaskNodeList;
-    @Transient
+    @TableField(exist = false)
     private SysDict sysDict;
 }
