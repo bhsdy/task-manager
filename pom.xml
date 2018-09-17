@@ -50,35 +50,6 @@
         </dependencies>
     </dependencyManagement>
 
-
-
-
-    <!--<repositories>
-        <repository>
-            <id>aliyun-maven</id>
-            <name>aliyun maven</name>
-            <url>http://maven.alsys_admin_ruleiyun.com/nexus/content/groups/public/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-releases</id>
-            <name>Spring Releases</name>
-            <url>https://repo.spring.io/libs-release-local</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>http://repo.spring.io/libs-milestone-local</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>-->
     <pluginRepositories>
         <pluginRepository>
             <id>public</id>
