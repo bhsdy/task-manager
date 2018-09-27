@@ -32,7 +32,7 @@ public class SysMenusController extends CommonController {
 	@RequestMapping(value = "", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String index(@RequestBody(required=false) SysMenu record, HttpServletRequest request) {
-		List<Map<String, Object>> menus = sysMenuService.getDataList(this.getCurrentUser().getId(), record == null ? null : record.getStatus());
+		List<Map<String, Object>> menus = sysMenuService.getDataList(this.getCurrentUser().getId(), record == null ? 1 : record.getStatus());
 		return FastJsonUtils.resultSuccess("200", "成功", menus);
 	}
 
