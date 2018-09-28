@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 @RestController
@@ -33,32 +34,35 @@ public class ExcelController {
     @RequestMapping(value = "/export",method = RequestMethod.POST)
     @ApiOperation(value = "登录", notes = "登录",produces="application/octet-stream")
     public void exportExcel(HttpServletRequest request, HttpServletResponse response){
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        //创建一个Excel表单,参数为sheet的名字
-        HSSFSheet sheet = workbook.createSheet("这个是表头");
-
-        //创建表头
-        setTitle(workbook, sheet);
-        EntityWrapper<SysMenu> ew = new EntityWrapper<>();
-        List<SysMenu> answers = sysMenuService.selectList(ew);
-
-        //新增数据行，并且设置单元格数据
-        int rowNum = 1;
-        for (SysMenu answer:answers) {
-            HSSFRow row = sheet.createRow(rowNum);
-            row.createCell(0).setCellValue(answer.getPid());
-//            row.createCell(1).setCellValue(answer.getFullName());
-//            row.createCell(2).setCellValue(answer.getCheckes());
-//            row.createCell(3).setCellValue(answer.getContent());
-            rowNum++;
-        }
-        String fileName = "survey-answer.xlsx";
-        //清空response
-        response.reset();
-        //设置response的Header
-        response.addHeader("Content-Disposition", "attachment;filename="+ fileName);
-        OutputStream os = null;
         try {
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            //创建一个Excel表单,参数为sheet的名字
+            HSSFSheet sheet = workbook.createSheet("这个是表头");
+
+            //创建表头
+            setTitle(workbook, sheet);
+            EntityWrapper<SysMenu> ew = new EntityWrapper<>();
+            List<SysMenu> answers = sysMenuService.selectList(ew);
+
+            //新增数据行，并且设置单元格数据
+            int rowNum = 1;
+            for (SysMenu answer:answers) {
+                HSSFRow row = sheet.createRow(rowNum);
+                row.createCell(0).setCellValue(answer.getPid());
+    //            row.createCell(1).setCellValue(answer.getFullName());
+    //            row.createCell(2).setCellValue(answer.getCheckes());
+    //            row.createCell(3).setCellValue(answer.getContent());
+                rowNum++;
+            }
+            String fileName = "中文.xlsx";
+            //文件名乱码解决
+            String fName = URLEncoder.encode(fileName, "UTF-8");
+            //清空response
+            response.reset();
+            //设置response的Header
+            response.addHeader("Content-Disposition", "attachment;filename="+ fName);
+            OutputStream os = null;
+
             os = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/vnd.ms-excel;charset=GB2312");
             //将excel写入到输出流中
