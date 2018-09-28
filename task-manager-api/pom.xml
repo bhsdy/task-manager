@@ -169,13 +169,22 @@
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 			<version>2.3</version>
 		</dependency>
+		<!--poi打印-->
+		<!-- excel导出工具 -->
+		<!-- 添加POI支持 -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
 	</dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+			</plugin>
         </plugins>
         <defaultGoal>compile</defaultGoal>
     </build>
