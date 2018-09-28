@@ -4,7 +4,7 @@
 任务看板 后台代码
 
 #### 软件架构
-springCloud+mybatisPlus
+springCloud+mybatisPlus+Redis+FastDFS+POI
 
 
 #### 安装教程
