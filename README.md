@@ -16,9 +16,10 @@ springCloud+mybatisPlus+Redis+FastDFS+POI
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 启动task-manager-eureka 注册中心
+2. 启动task-manager-api 业务代码
+3. 启动task-manager-web 前端项目
+4. http://localhost:8080 进入登陆页
 
 #### 参与贡献
 
