@@ -1,10 +1,10 @@
 # task-manager
 
 #### 项目介绍
-任务看板 后台代码
+任务管理 后台代码
 
 #### 软件架构
-springCloud+mybatisPlus+Redis+FastDFS+POI
+springCloud mybatisPlus mybati pagehelp Redis FastDFS POI
 
 
 #### 安装教程
@@ -17,9 +17,11 @@ springCloud+mybatisPlus+Redis+FastDFS+POI
 #### 使用说明
 
 1. 启动task-manager-eureka 注册中心
-2. 启动task-manager-api 业务代码
+2.1 启动task-manager-api 业务代码
+2.2 启动task-manager-mycat 业务代码
 3. 启动task-manager-web 前端项目
 4. http://localhost:8080 进入登陆页
+
 
 #### 参与贡献
 
