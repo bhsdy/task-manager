@@ -133,7 +133,7 @@
 			<version>1.2.31</version>
 		</dependency>
 		<!--kaptcha验证码-->
-		<dependency>
+	<!--	<dependency>
 			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>
 			<version>2.3.2</version>
@@ -143,7 +143,12 @@
 					<groupId>javax.servlet</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
+		</dependency>-->
+			<dependency>
+				<groupId>com.github.axet</groupId>
+				<artifactId>kaptcha</artifactId>
+				<version>0.0.6</version>
+			</dependency>
 		<!--fastdfs文件服务器-->
 		<dependency>
 			<groupId>net.oschina.zcx7878</groupId>
