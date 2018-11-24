@@ -1,5 +1,6 @@
 package com.cn.taskManager;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -13,9 +14,10 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableScheduling
 @EnableFeignClients
-public class Application {
+@MapperScan("com.cn.taskManager.mapper")
+public class MycatApplication {
     public static void main(String[] args) {
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(MycatApplication.class,args);
     }
 
     @Bean

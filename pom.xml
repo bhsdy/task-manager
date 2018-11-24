@@ -18,8 +18,9 @@
 
     <modules>
         <module>task-manager-eureka</module>
-        <module>task-manager-api</module>
         <module>task-manager-config</module>
+        <module>task-manager-api</module>
+        <module>task-manager-mycat</module>
     </modules>
 
     <properties>

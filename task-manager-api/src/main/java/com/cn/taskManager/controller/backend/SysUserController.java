@@ -34,6 +34,22 @@ public class SysUserController extends CommonController {
 	 * 获取user列表
 	 */
 	@ApiOperation(value = "列表", httpMethod="GET")
+	@RequestMapping(value = "/queryUser", produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String queryUser() {
+		try {
+			List<SysUser> sysUsers = sysUserService.queryUser();
+			return FastJsonUtils.resultSuccess("200", "成功", sysUsers);
+		}catch (Exception e){
+			return FastJsonUtils.resultSuccess("1001", "失败", e.getMessage());
+		}
+
+	}
+
+	/**
+	 * 获取user列表
+	 */
+	@ApiOperation(value = "列表", httpMethod="POST")
 	@RequestMapping(value = "", produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String index(SysUser record, HttpServletRequest request) {

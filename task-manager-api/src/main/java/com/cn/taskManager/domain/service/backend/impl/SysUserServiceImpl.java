@@ -126,4 +126,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         throw new ValidateException("删除失败");
     }
+
+    @Override
+    public List<SysUser> queryUser() throws Exception {
+        List<SysUser> sysUsers = super.selectList(null);
+        return sysUsers;
+    }
 }

@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      name: spring-config
+      profile: dev
+      uri: http://localhost:8091/spring-config-dev.yml
+      label: master

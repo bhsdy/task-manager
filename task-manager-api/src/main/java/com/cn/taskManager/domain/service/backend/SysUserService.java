@@ -23,4 +23,6 @@ public interface SysUserService extends IService<SysUser> {
 	Boolean delete(String id)throws Exception;
 
 	Boolean deleteBatch(List<String> ids)throws Exception;
+
+	List<SysUser> queryUser()throws Exception;
 }
