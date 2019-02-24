@@ -3,6 +3,26 @@ server:
 
 #MYSQL
 spring:
+# kafka
+  kafka:
+    bootstrapServers: 192.168.72.128:9092
+#    生产者
+    producer:
+      retries: 0
+##        每次发送消息的量
+      batchSize: 16384
+      bufferMemory: 33554432
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+
+    #  制定默认消费者group id
+    consumer:
+      groupId: consumer-group
+      autoOffsetReset: earliest
+      enableAutoCommit: true
+      autoCommitInterval: 1000
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.apache.kafka.common.serialization.StringSerializer
   datasource:
     url: jdbc:mysql://192.168.72.128:8066/TESTDB
 #    url: jdbc:mysql://192.168.72.128:3306/db01
@@ -27,19 +47,13 @@ spring:
     multipart:
       enabled: true
 #支持文件写入磁盘.
-      file-size-threshold: 0
+      fileSizeThreshold: 0
 # 上传文件的临时目录
       location: C:\workSpace3\task-manager\task-manager-api\src\main\resources\image
 # 最大支持文件大小
       max-file-size: 5Mb
 # 最大支持请求大小
       max-request-size: 10Mb
-
-
-
-
-
-
 
 #mybatis&&通用Mapper
 mybatis:
@@ -49,36 +63,6 @@ mybatis:
   configuration:
   # 开启驼峰去掉“_”
     mapUnderscoreToCamelCase: true
-#mybatis
-#mybatis-plus:
-#  mapper-locations: classpath:/mapper/*Mapper.xml
-#  #实体扫描，多个package用逗号或者分号分隔
-#  typeAliasesPackage: com.cn.taskManager.domain.entity
-#  global-config:
-#    #刷新mapper 调试神器
-#    db-config:
-#      #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
-#      id-type: id_worker
-#      #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
-#      field-strategy: not_empty
-#      #驼峰下划线转换
-#      column-underline: true
-#      #数据库大写下划线转换
-#      #capital-mode: true
-#      #逻辑删除配置
-#      logic-delete-value: 0
-#      logic-not-delete-value: 1
-#      db-type: h2
-#    refresh: true
-#      #自定义填充策略接口实现
-#      #meta-object-handler: com.baomidou.springboot.xxx
-#      #自定义SQL注入器
-#      #sql-injector: com.baomidou.springboot.xxx
-#  configuration:
-#    map-underscore-to-camel-case: true
-#    cache-enabled: false
-
-
 #注册中心地址
 eureka:
   client:
@@ -93,16 +77,6 @@ eureka:
 
 swagger2:
   enable: true
-
-
-#---
-#spring:
-#  profiles: uat
-#  datasource:
-#      url: jdbc:mysql://localhost:3306/task-manager?autoReconnect=true&characterEncoding=utf8&useSSL=false
-#      username: root
-#      password: root
-
 #    redis:
 #      #数据库索引
 #      database: 0
@@ -121,20 +95,6 @@ swagger2:
 #          min-idle: 0
 #      #连接超时时间
 #      timeout: 10000
-
-#swagger2:
-#  enable: true
-
-#---
-#spring:
-#  profiles: prd
-#  datasource:
-#       url: jdbc:mysql://118.24.26.137:3306/task-manager?autoReconnect=true&characterEncoding=utf8&useSSL=false
-#       username: root
-#       password: feng123456
-#swagger2:
-#  enable: false
-
 
 
 

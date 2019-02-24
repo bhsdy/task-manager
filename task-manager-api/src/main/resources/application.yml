@@ -44,6 +44,26 @@ spring:
 
   application:
     name: task-manager-api
+# kafka
+  kafka:
+    bootstrapServers: 192.168.72.128:9092
+#    生产者
+    producer:
+      retries: 0
+##        每次发送消息的量
+      batchSize: 16384
+      bufferMemory: 33554432
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.apache.kafka.common.serialization.StringSerializer
+
+    #  制定默认消费者group id
+    consumer:
+      groupId: consumer-group
+      autoOffsetReset: earliest
+      enableAutoCommit: true
+      autoCommitInterval: 1000
+      keySerializer: org.apache.kafka.common.serialization.StringSerializer
+      valueSerializer: org.apache.kafka.common.serialization.StringSerializer
 
 #默认支持文件上传.
   http:

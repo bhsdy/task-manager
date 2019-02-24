@@ -163,17 +163,18 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		<!--poi打印-->
-		<!-- excel导出工具 -->
 		<!-- 添加POI支持 -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>4.0.0</version>
 		</dependency>
-
-
-
+        <!--kafka-->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+			<version>1.1.1.RELEASE</version>
+		</dependency>
 	</dependencies>
     <build>
         <plugins>
