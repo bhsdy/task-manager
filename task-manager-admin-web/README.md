@@ -1,7 +1,9 @@
 # CloudVue
 ### 简介
 ```
-CloudVue是一套基于Vue全家桶（Vue2.x + Vue-router2.x + Vuex）+ Thinkphp的前后端分离框架。
+task-manager-admin-web 是前端的 后台管理系统
+
+Vue2.x + Vue-router2.x + Vuex的前后端分离框架。
 脚手架构建也可以通过vue官方的vue-cli脚手架工具构建
 实现了一般后台所需要的功能模块
 

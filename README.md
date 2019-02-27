@@ -13,29 +13,14 @@ springCloud mybatisPlus mybati pagehelp Redis FastDFS POI
 2. task-manager-config 配置中心
 3. task-manager-api 业务代码
 4. mybatis-generator mybatis模型生成工具
+5.task-manager-admin-web 是前端的 后台管理系统
+5.task-manager-web 是前端的 前台管理系统
 
 #### 使用说明
 
 1. 启动task-manager-eureka 注册中心
 2.1 启动task-manager-api 业务代码
 2.2 启动task-manager-mycat 业务代码
-3. 启动task-manager-web 前端项目
+3.1 启动task-manager-web 前端项目
+3.2. 启动task-manager-web 前端项目
 4. http://localhost:8080 进入登陆页
-
-
-#### 参与贡献
-
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
-
-
-#### 码云特技
-
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
